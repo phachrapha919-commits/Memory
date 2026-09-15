@@ -2,21 +2,12 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1,
-      maximum-scale=1,
-      user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#fff7fc">
-
 <title>เมื่อกี้ฉันจะทำอะไรนะ? 🧠</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
 :root{
   --bg:#fff7fc;
@@ -48,3629 +39,1321 @@ body.dark{
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  background:#e8e4eb;
-  color:var(--text);
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    "Segoe UI",
-    sans-serif;
+  margin:0; min-height:100vh; background:#e8e4eb; color:var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
 }
 
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-}
+button, input, select, textarea{ font:inherit; }
+button{ border:0; cursor:pointer; }
 
 .app{
-  width:100%;
-  max-width:430px;
-  min-height:100vh;
-  margin:auto;
-  background:var(--bg);
-  position:relative;
-  overflow:hidden;
+  width:100%; max-width:430px; min-height:100vh; margin:auto;
+  background:var(--bg); position:relative; overflow:hidden;
 }
 
-/* =========================
-   LOGIN
-========================= */
-
+/* LOGIN */
 .login{
-  position:fixed;
-  inset:0;
-  z-index:999;
+  position:fixed; inset:0; z-index:999;
   background:
     radial-gradient(circle at 20% 10%,#ffd9ea 0,transparent 25%),
     radial-gradient(circle at 90% 20%,#ded5ff 0,transparent 28%),
     linear-gradient(145deg,#fff8fc,#f0ebff);
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display:flex; justify-content:center; align-items:center;
 }
-
-.login.hide{
-  display:none;
-}
+.login.hide{ display:none; }
 
 .login-box{
-  width:calc(100% - 38px);
-  max-width:390px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.9);
-  border-radius:34px;
-  padding:28px 22px;
-  text-align:center;
+  width:calc(100% - 38px); max-width:390px; background:rgba(255,255,255,.88);
+  backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.9);
+  border-radius:34px; padding:28px 22px; text-align:center;
   box-shadow:0 25px 70px rgba(120,95,160,.18);
 }
 
 .login-icon{
-  width:92px;
-  height:92px;
-  margin:auto;
-  border-radius:30px;
+  width:92px; height:92px; margin:auto; border-radius:30px;
   background:linear-gradient(135deg,#9b7cff,#ff9ec5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:45px;
+  display:flex; align-items:center; justify-content:center; font-size:45px;
   box-shadow:0 15px 30px rgba(145,115,255,.25);
 }
 
-.login-box h1{
-  margin:18px 0 5px;
-  font-size:23px;
-}
+.login-box h1{ margin:18px 0 5px; font-size:23px; }
+.login-box p{ margin:0 0 20px; color:#9993a8; font-size:12px; line-height:1.6; }
 
-.login-box p{
-  margin:0 0 20px;
-  color:#9993a8;
-  font-size:12px;
-  line-height:1.6;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.status{
-  height:30px;
-  padding:8px 20px 0;
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  font-weight:800;
-}
-
-.header{
-  padding:13px 19px 12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.greeting small{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.greeting h1{
-  margin:3px 0 0;
-  font-size:23px;
-}
+/* HEADER & NAVIGATION */
+.status{ height:30px; padding:8px 20px 0; display:flex; justify-content:space-between; font-size:11px; font-weight:800; }
+.header{ padding:13px 19px 12px; display:flex; justify-content:space-between; align-items:center; }
+.greeting small{ color:var(--muted); font-size:11px; }
+.greeting h1{ margin:3px 0 0; font-size:23px; }
 
 .avatar{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  color:white;
-  font-weight:900;
-  background:linear-gradient(135deg,#9b7cff,#ff91be);
-  box-shadow:0 8px 18px rgba(145,115,255,.25);
+  width:46px; height:46px; border-radius:50%; color:white; font-weight:900;
+  background:linear-gradient(135deg,#9b7cff,#ff91be); box-shadow:0 8px 18px rgba(145,115,255,.25);
 }
 
-/* =========================
-   PAGES
-========================= */
-
-.app-content{
-  padding-bottom:105px;
-}
-
-.page{
-  display:none;
-  padding:0 18px;
-  animation:pageIn .25s ease;
-}
-
-.page.active{
-  display:block;
-}
+.app-content{ padding-bottom:105px; }
+.page{ display:none; padding:0 18px; animation:pageIn .25s ease; }
+.page.active{ display:block; }
 
 @keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(7px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
+  from{ opacity:0; transform:translateY(7px); }
+  to{ opacity:1; transform:none; }
 }
 
-/* =========================
-   HERO
-========================= */
-
+/* HERO */
 .hero{
-  position:relative;
-  overflow:hidden;
-  padding:22px;
-  margin:8px 0 18px;
-  border-radius:29px;
-  color:white;
-  background:
-    linear-gradient(
-      135deg,
-      #9274ff,
-      #bd87ff 55%,
-      #ff9fc5
-    );
-  box-shadow:
-    0 18px 38px rgba(145,115,255,.25);
+  position:relative; overflow:hidden; padding:22px; margin:8px 0 18px;
+  border-radius:29px; color:white;
+  background:linear-gradient(135deg, #9274ff, #bd87ff 55%, #ff9fc5);
+  box-shadow:0 18px 38px rgba(145,115,255,.25);
 }
-
-.hero:before{
-  content:"";
-  position:absolute;
-  width:150px;
-  height:150px;
-  right:-55px;
-  top:-65px;
-  border-radius:50%;
-  background:rgba(255,255,255,.13);
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:90px;
-  height:90px;
-  left:-40px;
-  bottom:-50px;
-  border-radius:50%;
-  background:rgba(255,255,255,.10);
-}
-
-.hero small{
-  position:relative;
-  z-index:1;
-  opacity:.85;
-}
-
-.hero h2{
-  position:relative;
-  z-index:1;
-  margin:8px 0;
-  font-size:21px;
-}
-
-.hero p{
-  position:relative;
-  z-index:1;
-  margin:0;
-  font-size:12px;
-  line-height:1.7;
-  opacity:.92;
-}
+.hero small{ position:relative; z-index:1; opacity:.85; }
+.hero h2{ position:relative; z-index:1; margin:8px 0; font-size:21px; }
+.hero p{ position:relative; z-index:1; margin:0; font-size:12px; line-height:1.7; opacity:.92; }
 
 .voice{
-  position:relative;
-  z-index:2;
-  width:100%;
-  margin-top:15px;
-  padding:14px;
-  border-radius:17px;
-  background:white;
-  color:#7564e9;
-  font-weight:900;
+  position:relative; z-index:2; width:100%; margin-top:15px; padding:14px;
+  border-radius:17px; background:white; color:#7564e9; font-weight:900;
   box-shadow:0 8px 18px rgba(70,50,120,.12);
 }
 
-/* =========================
-   SECTION
-========================= */
-
-.section-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:18px 2px 10px;
-}
-
-.section-head h3{
-  margin:0;
-  font-size:16px;
-}
-
-.section-head button{
-  background:none;
-  color:var(--primary);
-  font-size:12px;
-  font-weight:900;
-}
-
-/* =========================
-   QUICK
-========================= */
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
-}
-
-.quick{
-  padding:12px 5px;
-  border-radius:19px;
-  background:var(--card);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-}
-
-.quick:active{
-  transform:scale(.95);
-}
-
-.quick-icon{
-  width:40px;
-  height:40px;
-  margin:auto;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--purple-soft);
-  font-size:19px;
-}
-
-.quick span{
-  display:block;
-  margin-top:7px;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-}
-
-/* =========================
-   CARD
-========================= */
-
-.card{
-  margin-bottom:10px;
-  padding:15px;
-  border-radius:21px;
-  background:var(--card);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-}
-
-/* =========================
-   TASK
-========================= */
-
-.task{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.check{
-  width:25px;
-  height:25px;
-  flex-shrink:0;
-  border-radius:8px;
-  border:2px solid #ddd8e4;
-  background:none;
-  color:white;
-  font-weight:900;
-}
-
-.check.done{
-  border-color:var(--green);
-  background:var(--green);
-}
-
-.task-main{
-  flex:1;
-  min-width:0;
-}
-
-.task-title{
-  font-size:14px;
-  font-weight:900;
-  word-break:break-word;
-}
-
-.done-text{
-  color:var(--muted);
-  text-decoration:line-through;
-}
-
-.task-meta{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.5;
-}
-
-.badge{
-  padding:5px 8px;
-  border-radius:8px;
-  font-size:9px;
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.badge.purple{
-  color:#715de2;
-  background:#eeeaff;
-}
-
-.badge.orange{
-  color:#d98125;
-  background:#fff0db;
-}
-
-.badge.red{
-  color:#e65472;
-  background:#ffe5eb;
-}
-
-.task-actions{
-  display:flex;
-  gap:5px;
-  margin-top:10px;
-  padding-left:35px;
-}
-
-.small-btn{
-  padding:7px 10px;
-  border-radius:10px;
-  background:var(--purple-soft);
-  color:var(--primary);
-  font-size:10px;
-  font-weight:800;
-}
-
-.delete-btn{
-  background:#ffe6ec;
-  color:#e95574;
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-.search{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:8px 0 15px;
-  padding:12px 14px;
-  border-radius:17px;
-  background:var(--card);
-  border:1px solid var(--line);
-}
-
-.search input{
-  width:100%;
-  border:0;
-  outline:0;
-  background:none;
-  color:var(--text);
-}
-
-/* =========================
-   IMAGE
-========================= */
-
-.memory-photo{
-  width:100%;
-  height:175px;
-  object-fit:cover;
-  border-radius:17px;
-  margin-top:12px;
-  display:block;
-}
-
-.location-box{
-  margin-top:9px;
-  padding:10px;
-  border-radius:13px;
-  background:var(--pink-soft);
-  color:#c65380;
-  font-size:11px;
-  font-weight:700;
-}
-
-/* =========================
-   ADD MODAL
-========================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:200;
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-  background:rgba(35,30,50,.48);
-  backdrop-filter:blur(5px);
-}
-
-.modal.show{
-  display:flex;
-}
-
-.sheet{
-  width:100%;
-  max-width:430px;
-  max-height:92vh;
-  overflow:auto;
-  padding:20px;
-  border-radius:31px 31px 0 0;
-  background:var(--card);
-  animation:sheetUp .25s ease;
-}
-
-@keyframes sheetUp{
-  from{
-    transform:translateY(100%);
-  }
-  to{
-    transform:none;
-  }
-}
-
-.handle{
-  width:40px;
-  height:4px;
-  margin:0 auto 18px;
-  border-radius:10px;
-  background:#d5d1dc;
-}
-
-.sheet h2{
-  margin:0 0 15px;
-  font-size:20px;
-}
-
-.input{
-  width:100%;
-  padding:13px 14px;
-  border-radius:15px;
-  border:1px solid var(--line);
-  outline:none;
-  background:var(--bg);
-  color:var(--text);
-}
-
-textarea.input{
-  resize:none;
-  min-height:75px;
-}
-
-.input:focus{
-  border-color:var(--primary);
-}
-
-.field{
-  margin-bottom:11px;
-}
-
-.field label{
-  display:block;
-  margin-bottom:6px;
-  font-size:11px;
-  font-weight:900;
-}
-
-.main-btn{
-  width:100%;
-  padding:14px;
-  border-radius:17px;
-  color:white;
-  font-weight:900;
-  background:linear-gradient(135deg,#9b7cff,#c48cff);
-  box-shadow:0 10px 22px rgba(145,115,255,.22);
-}
-
-.cancel-btn{
-  width:100%;
-  padding:13px;
-  margin-top:9px;
-  border-radius:16px;
-  background:var(--pink-soft);
-  color:#e45d91;
-  font-weight:900;
-}
-
-/* =========================
-   CAMERA
-========================= */
-
-.photo-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.photo-btn{
-  padding:13px 8px;
-  border-radius:15px;
-  background:var(--purple-soft);
-  color:#725ee0;
-  font-weight:900;
-}
-
-.photo-preview{
-  display:none;
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  margin-top:10px;
-  border-radius:17px;
-}
-
-/* =========================
-   TIMELINE
-========================= */
-
-.timeline{
-  position:relative;
-  padding-left:21px;
-}
-
-.timeline:before{
-  content:"";
-  position:absolute;
-  left:6px;
-  top:5px;
-  bottom:5px;
-  width:2px;
-  background:#ddd8e9;
-}
-
-.event{
-  position:relative;
-  margin-bottom:20px;
-}
-
-.event:before{
-  content:"";
-  position:absolute;
-  left:-19px;
-  top:3px;
-  width:9px;
-  height:9px;
-  border:3px solid var(--bg);
-  border-radius:50%;
-  background:var(--primary);
-}
-
-.event-time{
-  color:var(--muted);
-  font-size:10px;
-}
-
-.event-text{
-  margin-top:4px;
-  font-size:13px;
-  font-weight:800;
-}
-
-/* =========================
-   STATS
-========================= */
-
-.stat-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.stat{
-  padding:17px;
-  border-radius:20px;
-  background:var(--card);
-  border:1px solid var(--line);
-}
-
-.stat small{
-  color:var(--muted);
-}
-
-.number{
-  margin-top:4px;
-  font-size:27px;
-  font-weight:950;
-}
-
-.progress{
-  height:9px;
-  margin-top:10px;
-  overflow:hidden;
-  border-radius:20px;
-  background:#e9e5ef;
-}
-
-.progress i{
-  display:block;
-  width:0;
-  height:100%;
-  border-radius:20px;
-  background:linear-gradient(90deg,#9b7cff,#ff91be);
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
-.setting{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:13px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.setting:last-child{
-  border-bottom:0;
-}
-
-.si{
-  width:40px;
-  height:40px;
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:13px;
-  background:var(--purple-soft);
-}
-
-.setting-content{
-  flex:1;
-}
-
-.setting-content strong{
-  font-size:13px;
-}
-
-.setting-content small{
-  display:block;
-  margin-top:3px;
-  color:var(--muted);
-  font-size:10px;
-}
-
-.switch{
-  width:46px;
-  height:27px;
-  padding:3px;
-  border-radius:30px;
-  background:#d7d4de;
-}
-
-.switch i{
-  display:block;
-  width:21px;
-  height:21px;
-  border-radius:50%;
-  background:white;
-  transition:.2s;
-}
-
-.switch.on{
-  background:var(--primary);
-}
-
-.switch.on i{
-  transform:translateX(19px);
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile{
-  padding:10px 0 20px;
-  text-align:center;
-}
-
-.profile-avatar{
-  width:85px;
-  height:85px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  color:white;
-  font-size:28px;
-  font-weight:900;
-  background:linear-gradient(135deg,#9b7cff,#ff91be);
-}
-
-.profile h2{
-  margin:10px 0 2px;
-}
-
-.profile small{
-  color:var(--muted);
-}
-
-/* =========================
-   NAV
-========================= */
+/* CARDS & TASKS */
+.section-head{ display:flex; align-items:center; justify-content:space-between; margin:18px 2px 10px; }
+.section-head h3{ margin:0; font-size:16px; }
+.section-head button{ background:none; color:var(--primary); font-size:12px; font-weight:900; }
+
+.quick-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; }
+.quick{ padding:12px 5px; border-radius:19px; background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow); }
+.quick-icon{ width:40px; height:40px; margin:auto; border-radius:14px; display:flex; align-items:center; justify-content:center; background:var(--purple-soft); font-size:19px; }
+.quick span{ display:block; margin-top:7px; color:var(--muted); font-size:10px; font-weight:800; }
+
+.card{ margin-bottom:10px; padding:15px; border-radius:21px; background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow); }
+.task{ display:flex; align-items:center; gap:10px; }
+.check{ width:25px; height:25px; flex-shrink:0; border-radius:8px; border:2px solid #ddd8e4; background:none; color:white; font-weight:900; }
+.check.done{ border-color:var(--green); background:var(--green); }
+.task-main{ flex:1; min-width:0; }
+.task-title{ font-size:14px; font-weight:900; word-break:break-word; }
+.done-text{ color:var(--muted); text-decoration:line-through; }
+.task-meta{ margin-top:5px; color:var(--muted); font-size:10px; line-height:1.5; }
+
+.badge{ padding:5px 8px; border-radius:8px; font-size:9px; font-weight:900; white-space:nowrap; }
+.badge.purple{ color:#715de2; background:#eeeaff; }
+.badge.orange{ color:#d98125; background:#fff0db; }
+.badge.red{ color:#e65472; background:#ffe5eb; }
+
+.task-actions{ display:flex; gap:5px; margin-top:10px; padding-left:35px; flex-wrap:wrap; }
+.small-btn{ padding:7px 10px; border-radius:10px; background:var(--purple-soft); color:var(--primary); font-size:10px; font-weight:800; }
+.delete-btn{ background:#ffe6ec; color:#e95574; }
+.share-btn{ background:#e5f9f0; color:#229e62; }
+
+.search{ display:flex; align-items:center; gap:8px; margin:8px 0 15px; padding:12px 14px; border-radius:17px; background:var(--card); border:1px solid var(--line); }
+.search input{ width:100%; border:0; outline:0; background:none; color:var(--text); }
+
+.memory-photo{ width:100%; height:175px; object-fit:cover; border-radius:17px; margin-top:12px; display:block; }
+.location-box{ margin-top:9px; padding:10px; border-radius:13px; background:var(--pink-soft); color:#c65380; font-size:11px; font-weight:700; }
+.family-box{ margin-top:6px; padding:6px 10px; border-radius:10px; background:#e8f4ff; color:#2b72b8; font-size:10px; font-weight:bold; }
+
+/* MODAL */
+.modal{ position:fixed; inset:0; z-index:200; display:none; align-items:flex-end; justify-content:center; background:rgba(35,30,50,.48); backdrop-filter:blur(5px); }
+.modal.show{ display:flex; }
+.sheet{ width:100%; max-width:430px; max-height:92vh; overflow:auto; padding:20px; border-radius:31px 31px 0 0; background:var(--card); animation:sheetUp .25s ease; }
+@keyframes sheetUp{ from{ transform:translateY(100%); } to{ transform:none; } }
+
+.handle{ width:40px; height:4px; margin:0 auto 18px; border-radius:10px; background:#d5d1dc; }
+.sheet h2{ margin:0 0 15px; font-size:20px; }
+
+.input{ width:100%; padding:13px 14px; border-radius:15px; border:1px solid var(--line); outline:none; background:var(--bg); color:var(--text); }
+textarea.input{ resize:none; min-height:75px; }
+.input:focus{ border-color:var(--primary); }
+.field{ margin-bottom:11px; }
+.field label{ display:block; margin-bottom:6px; font-size:11px; font-weight:900; }
+
+.main-btn{ width:100%; padding:14px; border-radius:17px; color:white; font-weight:900; background:linear-gradient(135deg,#9b7cff,#c48cff); box-shadow:0 10px 22px rgba(145,115,255,.22); }
+.cancel-btn{ width:100%; padding:13px; margin-top:9px; border-radius:16px; background:var(--pink-soft); color:#e45d91; font-weight:900; }
+
+.photo-buttons{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.photo-btn{ padding:13px 8px; border-radius:15px; background:var(--purple-soft); color:#725ee0; font-weight:900; }
+.photo-preview{ display:none; width:100%; height:180px; object-fit:cover; margin-top:10px; border-radius:17px; }
+
+/* TIMELINE & STATS */
+.timeline{ position:relative; padding-left:21px; }
+.timeline:before{ content:""; position:absolute; left:6px; top:5px; bottom:5px; width:2px; background:#ddd8e9; }
+.event{ position:relative; margin-bottom:20px; }
+.event:before{ content:""; position:absolute; left:-19px; top:3px; width:9px; height:9px; border:3px solid var(--bg); border-radius:50%; background:var(--primary); }
+.event-time{ color:var(--muted); font-size:10px; }
+.event-text{ margin-top:4px; font-size:13px; font-weight:800; }
+
+.stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.stat{ padding:17px; border-radius:20px; background:var(--card); border:1px solid var(--line); }
+.stat small{ color:var(--muted); }
+.number{ margin-top:4px; font-size:24px; font-weight:950; }
+.progress{ height:9px; margin-top:10px; overflow:hidden; border-radius:20px; background:#e9e5ef; }
+.progress i{ display:block; width:0; height:100%; border-radius:20px; background:linear-gradient(90deg,#9b7cff,#ff91be); }
+
+.setting{ display:flex; align-items:center; gap:11px; padding:13px 0; border-bottom:1px solid var(--line); cursor:pointer; }
+.setting:last-child{ border-bottom:0; }
+.si{ width:40px; height:40px; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:13px; background:var(--purple-soft); }
+.setting-content{ flex:1; }
+.setting-content strong{ font-size:13px; }
+.setting-content small{ display:block; margin-top:3px; color:var(--muted); font-size:10px; }
+
+.switch{ width:46px; height:27px; padding:3px; border-radius:30px; background:#d7d4de; }
+.switch i{ display:block; width:21px; height:21px; border-radius:50%; background:white; transition:.2s; }
+.switch.on{ background:var(--primary); }
+.switch.on i{ transform:translateX(19px); }
+
+.profile{ padding:10px 0 20px; text-align:center; }
+.profile-avatar{ width:85px; height:85px; margin:auto; display:flex; align-items:center; justify-content:center; border-radius:50%; color:white; font-size:28px; font-weight:900; background:linear-gradient(135deg,#9b7cff,#ff91be); }
+.profile h2{ margin:10px 0 2px; }
+.profile small{ color:var(--muted); }
 
 .nav{
-  position:fixed;
-  z-index:50;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:430px;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  padding:8px 7px 11px;
-  background:rgba(255,255,255,.93);
-  backdrop-filter:blur(20px);
-  border-top:1px solid var(--line);
+  position:fixed; z-index:50; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:430px; display:grid; grid-template-columns:repeat(5,1fr);
+  padding:8px 7px 11px; background:rgba(255,255,255,.93); backdrop-filter:blur(20px); border-top:1px solid var(--line);
 }
-
-body.dark .nav{
-  background:rgba(33,30,45,.94);
-}
-
-.nav button{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-  background:none;
-  color:#a09aaa;
-  font-size:9px;
-}
-
-.nav button span:first-child{
-  font-size:20px;
-}
-
-.nav button.active{
-  color:var(--primary);
-  font-weight:900;
-}
-
-/* =========================
-   FAB
-========================= */
+body.dark .nav{ background:rgba(33,30,45,.94); }
+.nav button{ display:flex; flex-direction:column; align-items:center; gap:3px; background:none; color:#a09aaa; font-size:9px; }
+.nav button span:first-child{ font-size:20px; }
+.nav button.active{ color:var(--primary); font-weight:900; }
 
 .fab{
-  position:fixed;
-  z-index:60;
-  bottom:76px;
-  left:50%;
-  transform:translateX(-50%);
-  width:59px;
-  height:59px;
-  border-radius:50%;
-  color:white;
-  font-size:28px;
-  background:linear-gradient(135deg,#9b7cff,#ff91be);
-  box-shadow:0 12px 28px rgba(145,115,255,.35);
+  position:fixed; z-index:60; bottom:76px; left:50%; transform:translateX(-50%);
+  width:59px; height:59px; border-radius:50%; color:white; font-size:28px;
+  background:linear-gradient(135deg,#9b7cff,#ff91be); box-shadow:0 12px 28px rgba(145,115,255,.35);
 }
 
-/* =========================
-   EMPTY
-========================= */
-
-.empty{
-  padding:35px 10px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.empty div{
-  margin-bottom:8px;
-  font-size:40px;
-}
-
-/* =========================
-   TOAST
-========================= */
+.empty{ padding:35px 10px; text-align:center; color:var(--muted); }
+.empty div{ margin-bottom:8px; font-size:40px; }
 
 .toast{
-  position:fixed;
-  z-index:1000;
-  top:35px;
-  left:50%;
-  transform:translate(-50%,-20px);
-  opacity:0;
-  pointer-events:none;
-  padding:11px 17px;
-  border-radius:14px;
-  background:#292532;
-  color:white;
-  font-size:12px;
-  transition:.25s;
+  position:fixed; z-index:1000; top:35px; left:50%; transform:translate(-50%,-20px);
+  opacity:0; pointer-events:none; padding:11px 17px; border-radius:14px;
+  background:#292532; color:white; font-size:12px; transition:.25s;
+  display:flex; align-items:center; justify-content:space-between; max-width:90%;
 }
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* =========================
-   LARGE TEXT
-========================= */
-
-body.large-text .task-title{
-  font-size:16px;
-}
-
-body.large-text .task-meta{
-  font-size:12px;
-}
-
-body.reduce-motion *,
-body.reduce-motion *:before,
-body.reduce-motion *:after{
-  animation:none !important;
-  transition:none !important;
-}
-
-/* =========================
-   NOTIFICATION CARD
-========================= */
+.toast.show{ opacity:1; transform:translate(-50%,0); pointer-events:auto; }
 
 .reminder{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:12px;
-  padding:12px;
-  border-radius:15px;
-  background:linear-gradient(
-    135deg,
-    var(--purple-soft),
-    var(--pink-soft)
-  );
+  display:flex; align-items:center; gap:10px; margin-bottom:12px; padding:12px;
+  border-radius:15px; background:linear-gradient(135deg, var(--purple-soft), var(--pink-soft));
 }
-
-.reminder-icon{
-  font-size:22px;
-}
-
-.reminder-text{
-  flex:1;
-  font-size:11px;
-  font-weight:800;
-}
-
-.reminder-time{
-  color:var(--primary);
-  font-size:10px;
-  font-weight:900;
-}
+.reminder-icon{ font-size:22px; }
+.reminder-text{ flex:1; font-size:11px; font-weight:800; }
+.reminder-time{ color:var(--primary); font-size:10px; font-weight:900; }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
+<!-- LOGIN -->
 <div class="login" id="loginScreen">
-
   <div class="login-box">
-
-    <div class="login-icon">
-      🧠
+    <div class="login-icon">🧠</div>
+    <h1>เมื่อกี้ฉันจะทำอะไรนะ?</h1>
+    <p>ผู้ช่วยดักความจำอัจฉริยะส่วนตัว 💕<br>ระบุชื่อและเลือกรูปแบบการใช้งานเพื่อเริ่มต้น</p>
+    
+    <div class="field" style="text-align:left">
+      <label>👤 รูปแบบบัญชีผู้ใช้</label>
+      <select class="input" id="userRoleInput">
+        <option value="Personal">🌸 ใช้งานส่วนตัว (Incognito Mode)</option>
+        <option value="Family">👨‍👩‍👧 แชร์ในครอบครัว (Family Member Assign)</option>
+      </select>
     </div>
 
-    <h1>เมื่อกี้ฉันจะทำอะไรนะ?</h1>
-
-    <p>
-      ผู้ช่วยความจำตัวน้อยของคุณ 🌷<br>
-      เข้าสู่ระบบง่าย ๆ ด้วยชื่อของคุณ
-    </p>
-
-    <input
-      class="input"
-      id="nameInput"
-      placeholder="เช่น มินท์"
-      maxlength="20"
-    >
+    <div class="field" style="text-align:left">
+      <label>ชื่อผู้ใช้งาน</label>
+      <input class="input" id="nameInput" placeholder="เช่น มินท์" maxlength="20">
+    </div>
 
     <div style="height:10px"></div>
-
-    <button
-      class="main-btn"
-      onclick="simpleLogin()">
-      เข้าสู่แอป 💜
-    </button>
-
+    <button class="main-btn" onclick="simpleLogin()">เข้าสู่ระบบเตือนความจำ 💜</button>
   </div>
-
 </div>
 
-
-<!-- =====================================================
-     APP
-===================================================== -->
-
+<!-- APP -->
 <div class="app" id="app" style="display:none">
-
 <div class="app-content">
 
   <!-- STATUS -->
-
   <div class="status">
-
-    <span id="clock">
-      12:00
-    </span>
-
-    <span>
-      ● ● ● ▮
-    </span>
-
+    <span id="clock">12:00</span>
+    <span>● ● ● ▮</span>
   </div>
 
-
   <!-- HEADER -->
-
   <header class="header">
-
     <div class="greeting">
-
-      <small id="todayText">
-        วันนี้
-      </small>
-
-      <h1>
-        สวัสดี <span id="helloName">👋</span>
-      </h1>
-
+      <small id="todayText">วันนี้</small>
+      <h1>สวัสดี <span id="helloName">👋</span></h1>
+      <small id="userRoleBadge" style="color:var(--primary); font-weight:800;"></small>
     </div>
-
-    <button
-      class="avatar"
-      onclick="showPage('profile')">
-
-      <span id="avatarText">
-        ME
-      </span>
-
+    <button class="avatar" onclick="showPage('profile')">
+      <span id="avatarText">ME</span>
     </button>
-
   </header>
 
-
-  <!-- =================================================
-       HOME
-  ================================================= -->
-
-  <main
-    id="home"
-    class="page active">
-
+  <!-- HOME PAGE -->
+  <main id="home" class="page active">
     <section class="hero">
-
-      <small>
-        🧠 ผู้ช่วยความจำส่วนตัว
-      </small>
-
-      <h2>
-        เมื่อกี้ฉันจะทำอะไรนะ?
-      </h2>
-
-      <p>
-        ไม่ต้องพยายามจำทุกอย่างเอง<br>
-        แค่บอกเรา แล้วเราจะช่วยจำให้ 💕
-      </p>
-
-      <button
-        class="voice"
-        onclick="openAdd()">
-
-        ✨ จำสิ่งใหม่ให้ฉัน
-
-      </button>
-
+      <small>🧠 ผู้ช่วยบันทึกความจำอัจฉริยะ</small>
+      <h2>เมื่อกี้ฉันจะทำอะไรนะ?</h2>
+      <p>จดสิ่งที่จะทำ ป้องกันการลืม และติดตามความทรงจำของคุณ 💕</p>
+      <button class="voice" onclick="openAdd()">✨ บันทึกสิ่งที่ต้องทำ / วางของไว้ไหน</button>
     </section>
 
-
-    <!-- REMINDER -->
-
+    <div id="overdueAlertBox"></div>
     <div id="nextReminder"></div>
 
-
-    <!-- QUICK -->
-
+    <!-- QUICK ADD -->
     <div class="section-head">
-
-      <h3>
-        ✨ ทำด่วน
-      </h3>
-
-      <button onclick="openAdd()">
-        + เพิ่ม
-      </button>
-
+      <h3>✨ ดักความจำเร่งด่วน</h3>
+      <button onclick="openAdd()">+ บันทึก</button>
     </div>
-
 
     <div class="quick-grid">
-
-      <button
-        class="quick"
-        onclick="quickAdd('ซื้อของ')">
-
-        <div class="quick-icon">
-          🛒
-        </div>
-
-        <span>
-          ซื้อของ
-        </span>
-
+      <button class="quick" onclick="quickAdd('ชีวิตประจำวัน', 'วางของไว้ที่...')">
+        <div class="quick-icon">📍</div>
+        <span>วางของ</span>
       </button>
-
-
-      <button
-        class="quick"
-        onclick="quickAdd('คนอื่น')">
-
-        <div class="quick-icon">
-          📞
-        </div>
-
-        <span>
-          โทรหา
-        </span>
-
+      <button class="quick" onclick="quickAdd('ซื้อของ', 'ต้องแวะซื้อ...')">
+        <div class="quick-icon">🛒</div>
+        <span>ซื้อของ</span>
       </button>
-
-
-      <button
-        class="quick"
-        onclick="quickAdd('ชีวิตประจำวัน')">
-
-        <div class="quick-icon">
-          📍
-        </div>
-
-        <span>
-          วางของ
-        </span>
-
+      <button class="quick" onclick="quickAdd('งาน', 'อย่าลืมทำส่ง...')">
+        <div class="quick-icon">💼</div>
+        <span>เรื่องงาน</span>
       </button>
-
-
-      <button
-        class="quick"
-        onclick="quickAdd('งาน')">
-
-        <div class="quick-icon">
-          💼
-        </div>
-
-        <span>
-          งาน
-        </span>
-
+      <button class="quick" onclick="quickAdd('สุขภาพ', 'ทานยา / ออกกำลังกาย')">
+        <div class="quick-icon">💊</div>
+        <span>สุขภาพ</span>
       </button>
-
     </div>
-
-
-    <!-- TASK -->
 
     <div class="section-head">
-
-      <h3>
-        💭 สิ่งที่ต้องจำ
-      </h3>
-
-      <button
-        onclick="showPage('tasks')">
-
-        ดูทั้งหมด
-
-      </button>
-
+      <h3>💭 ความจำที่ต้องทำเร็วๆ นี้</h3>
+      <button onclick="showPage('tasks')">ดูทั้งหมด</button>
     </div>
-
 
     <div id="homeTasks"></div>
-
   </main>
 
-
-  <!-- =================================================
-       TASK PAGE
-  ================================================= -->
-
-  <main
-    id="tasks"
-    class="page">
-
+  <!-- TASKS PAGE -->
+  <main id="tasks" class="page">
     <div class="search">
-
       🔍
-
-      <input
-        id="searchInput"
-        placeholder="ค้นหาความทรงจำ..."
-        oninput="renderTasks()">
-
+      <input id="searchInput" placeholder="ค้นหาความทรงจำ/สถานที่/สิ่งที่ต้องทำ..." oninput="renderTasks()">
     </div>
-
 
     <div class="section-head">
-
-      <h3>
-        📋 รายการทั้งหมด
-      </h3>
-
-      <button onclick="openAdd()">
-        + เพิ่ม
-      </button>
-
+      <h3>📋 รายการความจำทั้งหมด</h3>
+      <button onclick="openAdd()">+ บันทึกเพิ่ม</button>
     </div>
-
 
     <div id="allTasks"></div>
-
   </main>
 
-
-  <!-- =================================================
-       TIMELINE
-  ================================================= -->
-
-  <main
-    id="timeline"
-    class="page">
-
+  <!-- TIMELINE PAGE -->
+  <main id="timeline" class="page">
     <div class="section-head">
-
-      <h3>
-        🕐 ไทม์ไลน์ความจำ
-      </h3>
-
-      <span class="badge purple">
-        วันนี้
-      </span>
-
+      <h3>🕐 ไทม์ไลน์บันทึกความทรงจำ</h3>
+      <span class="badge purple">ล่าสุด</span>
     </div>
-
 
     <div class="card">
-
-      <div
-        class="timeline"
-        id="timelineList">
-      </div>
-
+      <div class="timeline" id="timelineList"></div>
     </div>
-
   </main>
 
-
-  <!-- =================================================
-       STATS
-  ================================================= -->
-
-  <main
-    id="insights"
-    class="page">
-
+  <!-- INSIGHTS PAGE -->
+  <main id="insights" class="page">
     <div class="section-head">
-
-      <h3>
-        📊 ภาพรวมของคุณ
-      </h3>
-
+      <h3>📊 Dashboard วิเคราะห์ความจำ</h3>
     </div>
-
 
     <div class="stat-grid">
-
       <div class="stat">
-
-        <small>
-          🧠 จำไว้ทั้งหมด
-        </small>
-
-        <div
-          class="number"
-          id="statTotal">
-          0
-        </div>
-
+        <small>🧠 บันทึกทั้งหมด</small>
+        <div class="number" id="statTotal">0</div>
       </div>
-
-
       <div class="stat">
-
-        <small>
-          🎉 ทำสำเร็จ
-        </small>
-
-        <div
-          class="number"
-          id="statDone">
-          0
-        </div>
-
+        <small>✅ ทำสำเร็จแล้ว</small>
+        <div class="number" id="statDone">0</div>
       </div>
-
-
       <div class="stat">
-
-        <small>
-          📅 วันนี้
-        </small>
-
-        <div
-          class="number"
-          id="statToday">
-          0
-        </div>
-
+        <small>⏳ กำลังดำเนินการ</small>
+        <div class="number" id="statPending" style="color:var(--orange);">0</div>
       </div>
-
-
       <div class="stat">
-
-        <small>
-          ⭐ สำเร็จ
-        </small>
-
-        <div
-          class="number"
-          id="statRate">
-          0%
-        </div>
-
+        <small>⭐ ดักความจำสำเร็จ</small>
+        <div class="number" id="statRate">0%</div>
       </div>
-
     </div>
-
 
     <div class="section-head">
-
-      <h3>
-        🌷 ความสม่ำเสมอ
-      </h3>
-
+      <h3>🌷 อัตราการจัดการความจำ</h3>
     </div>
 
-
     <div class="card">
-
-      <strong>
-        คุณกำลังดูแลความจำตัวเองได้ดีมาก 💜
-      </strong>
-
+      <strong>อัตราการดักความจำสำเร็จ 💜</strong>
       <div class="progress">
-
         <i id="progressBar"></i>
-
       </div>
-
     </div>
-
 
     <div class="section-head">
-
-      <h3>
-        🏷️ หมวดหมู่
-      </h3>
-
+      <h3>🏷️ จัดการหมวดหมู่หลัก (Master Categories)</h3>
     </div>
-
-
-    <div class="card">
-
-      <p>
-        💼 งาน
-        <b style="float:right"
-           id="workCount">
-          0
-        </b>
-      </p>
-
-      <p>
-        🏠 ชีวิตประจำวัน
-        <b style="float:right"
-           id="lifeCount">
-          0
-        </b>
-      </p>
-
-      <p>
-        🛒 ซื้อของ
-        <b style="float:right"
-           id="shopCount">
-          0
-        </b>
-      </p>
-
-      <p>
-        👥 คนอื่น
-        <b style="float:right"
-           id="peopleCount">
-          0
-        </b>
-      </p>
-
-    </div>
-
+    <div class="card" id="masterDataBox"></div>
   </main>
 
-
-  <!-- =================================================
-       PROFILE
-  ================================================= -->
-
-  <main
-    id="profile"
-    class="page">
-
+  <!-- PROFILE PAGE -->
+  <main id="profile" class="page">
     <div class="profile">
-
-      <div
-        class="profile-avatar"
-        id="profileAvatar">
-        ME
-      </div>
-
-      <h2 id="profileName">
-        ผู้ใช้งาน
-      </h2>
-
-      <small>
-        ผู้ช่วยความจำส่วนตัว 🌷
-      </small>
-
+      <div class="profile-avatar" id="profileAvatar">ME</div>
+      <h2 id="profileName">ผู้ใช้งาน</h2>
+      <small id="profileRoleText">ผู้ช่วยความจำส่วนตัว 🌷</small>
     </div>
-
 
     <div class="card">
-
       <div class="setting">
-
-        <div class="si">
-          🧠
-        </div>
-
+        <div class="si">🧠</div>
         <div class="setting-content">
-
-          <strong>
-            ความทรงจำ
-          </strong>
-
-          <small>
-            รายการที่บันทึก
-          </small>
-
+          <strong>เรื่องที่เคยบันทึกไว้</strong>
+          <small>ความจำทั้งหมดในระบบ</small>
         </div>
-
-        <b id="profileTaskCount">
-          0
-        </b>
-
+        <b id="profileTaskCount">0</b>
       </div>
 
-
       <div class="setting">
-
-        <div class="si">
-          🎉
-        </div>
-
+        <div class="si">🎉</div>
         <div class="setting-content">
-
-          <strong>
-            ทำสำเร็จ
-          </strong>
-
-          <small>
-            สิ่งที่ทำเสร็จแล้ว
-          </small>
-
+          <strong>ความจำที่จัดการแล้ว</strong>
+          <small>เสร็จสิ้นเรียบร้อย</small>
         </div>
-
-        <b id="profileDoneCount">
-          0
-        </b>
-
+        <b id="profileDoneCount">0</b>
       </div>
-
     </div>
 
+    <!-- ฟังก์ชันสลับโหมดบัญชี Role -->
+    <div class="section-head">
+      <h3>👤 เปลี่ยนรูปแบบบัญชีใช้งาน</h3>
+    </div>
+    <div class="card">
+      <div class="field" style="margin:0;">
+        <select class="input" id="switchRoleSelect" onchange="switchRole(this.value)">
+          <option value="Personal">🌸 ใช้งานส่วนตัว (Personal)</option>
+          <option value="Family">👨‍👩‍👧 แชร์ในครอบครัว (Family Shared)</option>
+        </select>
+      </div>
+    </div>
 
-    <button
-      class="main-btn"
-      onclick="logout()">
-
-      🚪 ออกจากระบบ
-
-    </button>
-
+    <button class="main-btn" onclick="logout()" style="margin-top:15px;">🚪 ออกจากระบบ</button>
   </main>
 
-
-  <!-- =================================================
-       SETTINGS
-  ================================================= -->
-
-  <main
-    id="settings"
-    class="page">
-
+  <!-- SETTINGS PAGE -->
+  <main id="settings" class="page">
     <div class="section-head">
-
-      <h3>
-        ⚙️ ตั้งค่า
-      </h3>
-
+      <h3>⚙️ ตั้งค่า</h3>
     </div>
-
 
     <div class="card">
-
       <div class="setting">
-
-        <div class="si">
-          🌙
-        </div>
-
+        <div class="si">🌙</div>
         <div class="setting-content">
-
-          <strong>
-            โหมดกลางคืน
-          </strong>
-
-          <small>
-            ถนอมสายตา
-          </small>
-
+          <strong>โหมดกลางคืน</strong>
+          <small>ถนอมสายตา</small>
         </div>
-
-        <button
-          class="switch"
-          id="darkSwitch"
-          onclick="toggleDark()">
-
-          <i></i>
-
-        </button>
-
+        <button class="switch" id="darkSwitch" onclick="toggleDark()"><i></i></button>
       </div>
 
-
       <div class="setting">
-
-        <div class="si">
-          🔠
-        </div>
-
+        <div class="si">🔔</div>
         <div class="setting-content">
-
-          <strong>
-            ตัวอักษรใหญ่
-          </strong>
-
-          <small>
-            อ่านง่ายขึ้น
-          </small>
-
+          <strong>ระบบแจ้งเตือนเตือนความจำ</strong>
+          <small>เปิดการแจ้งเตือนบนอุปกรณ์</small>
         </div>
-
-        <button
-          class="switch"
-          id="textSwitch"
-          onclick="toggleText()">
-
-          <i></i>
-
-        </button>
-
+        <button class="small-btn" onclick="requestNotification()">เปิดแจ้งเตือน</button>
       </div>
-
-
-      <div class="setting">
-
-        <div class="si">
-          🔔
-        </div>
-
-        <div class="setting-content">
-
-          <strong>
-            การแจ้งเตือน
-          </strong>
-
-          <small>
-            เปิดการแจ้งเตือนความจำ
-          </small>
-
-        </div>
-
-        <button
-          class="small-btn"
-          onclick="requestNotification()">
-
-          เปิด
-
-        </button>
-
-      </div>
-
     </div>
 
-
-    <!-- DATA -->
-
+    <!-- ระบบกู้คืนข้อมูล / ถังขยะ -->
     <div class="section-head">
-
-      <h3>
-        💾 จัดการข้อมูล
-      </h3>
-
+      <h3>🗑️ ระบบเรียกคืนข้อมูล</h3>
     </div>
-
 
     <div class="card">
-
-      <div
-        class="setting"
-        onclick="exportData()">
-
-        <div class="si">
-          📤
-        </div>
-
+      <div class="setting" onclick="openTrashModal()">
+        <div class="si">♻️</div>
         <div class="setting-content">
-
-          <strong>
-            ส่งออกข้อมูล
-          </strong>
-
-          <small>
-            บันทึกข้อมูลไว้ในไฟล์
-          </small>
-
+          <strong>ถังขยะความทรงจำ</strong>
+          <small>ดูและเรียกคืนข้อมูลที่เคยลบทิ้ง</small>
         </div>
-
-        →
-
+        <span id="trashCountBadge" class="badge purple">0</span>
       </div>
-
-
-      <div
-        class="setting"
-        onclick="clearAllData()">
-
-        <div class="si">
-          🗑️
-        </div>
-
-        <div class="setting-content">
-
-          <strong>
-            ลบข้อมูลทั้งหมด
-          </strong>
-
-          <small>
-            ลบความทรงจำทั้งหมด
-          </small>
-
-        </div>
-
-        →
-
-      </div>
-
     </div>
 
+    <div class="section-head">
+      <h3>💾 จัดการข้อมูลความจำ</h3>
+    </div>
 
-    <p style="
-      text-align:center;
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.7">
+    <div class="card">
+      <div class="setting" onclick="exportData()">
+        <div class="si">💾</div>
+        <div class="setting-content">
+          <strong>สำรองข้อมูลไฟล์ JSON (Export)</strong>
+          <small>บันทึกความทรงจำเก็บไว้ลงเครื่อง</small>
+        </div>
+        →
+      </div>
 
-      เมื่อกี้ฉันจะทำอะไรนะ? 💜<br>
-      Version 3.0
-
-    </p>
-
+      <div class="setting" onclick="clearAllData()">
+        <div class="si">🗑️</div>
+        <div class="setting-content">
+          <strong>ล้างความทรงจำทั้งหมด</strong>
+          <small>รีเซ็ตระบบกลับเป็นค่าเริ่มต้น</small>
+        </div>
+        →
+      </div>
+    </div>
   </main>
 
 </div>
 
+<!-- FAB -->
+<button class="fab" onclick="openAdd()">＋</button>
 
-<!-- =================================================
-     FAB
-================================================= -->
-
-<button
-  class="fab"
-  onclick="openAdd()">
-
-  ＋
-
-</button>
-
-
-<!-- =================================================
-     NAV
-================================================= -->
-
+<!-- NAV BAR -->
 <nav class="nav">
-
-  <button
-    class="active"
-    onclick="showPage('home',this)">
-
+  <button class="active" onclick="showPage('home',this)">
     <span>⌂</span>
     <span>หน้าหลัก</span>
-
   </button>
-
-
-  <button
-    onclick="showPage('tasks',this)">
-
+  <button onclick="showPage('tasks',this)">
     <span>✓</span>
-    <span>รายการ</span>
-
+    <span>ความจำ</span>
   </button>
-
-
-  <button
-    onclick="showPage('timeline',this)">
-
+  <button onclick="showPage('timeline',this)">
     <span>◷</span>
     <span>ไทม์ไลน์</span>
-
   </button>
-
-
-  <button
-    onclick="showPage('insights',this)">
-
+  <button onclick="showPage('insights',this)">
     <span>◉</span>
     <span>สถิติ</span>
-
   </button>
-
-
-  <button
-    onclick="showPage('settings',this)">
-
+  <button onclick="showPage('settings',this)">
     <span>⚙</span>
     <span>ตั้งค่า</span>
-
   </button>
-
 </nav>
 
 </div>
 
-
-<!-- =====================================================
-     ADD MODAL
-===================================================== -->
-
-<div
-  class="modal"
-  id="addModal">
-
+<!-- ADD/EDIT MODAL -->
+<div class="modal" id="addModal">
   <div class="sheet">
-
     <div class="handle"></div>
-
-    <h2>
-      🧠 จำสิ่งนี้ให้ฉัน
-    </h2>
-
+    <h2>🧠 บันทึกความจำใหม่</h2>
 
     <div class="field">
-
-      <label>
-        💭 จะให้จำอะไร?
-      </label>
-
-      <textarea
-        class="input"
-        id="taskInput"
-        placeholder="เช่น กุญแจรถอยู่ในกระเป๋าสีดำ">
-      </textarea>
-
+      <label>💭 เรื่องที่คิดว่าเมื่อกี้จะทำ หรือจุดที่วางของไว้</label>
+      <textarea class="input" id="taskInput" placeholder="เช่น วางกุญแจรถไว้บนหลังตู้เย็น / ต้องแวะซื้อนมสด"></textarea>
     </div>
 
-
-    <div class="field">
-
-      <label>
-        🏷️ หมวดหมู่
-      </label>
-
-      <select
-        class="input"
-        id="categoryInput">
-
-        <option value="ชีวิตประจำวัน">
-          🏠 ชีวิตประจำวัน
-        </option>
-
-        <option value="งาน">
-          💼 งาน
-        </option>
-
-        <option value="ซื้อของ">
-          🛒 ซื้อของ
-        </option>
-
-        <option value="คนอื่น">
-          👥 คนอื่น
-        </option>
-
+    <!-- ฟังก์ชันเฉพาะ Role: Family Assign -->
+    <div class="field" id="familyAssignField" style="display:none;">
+      <label>👨‍👩‍👧 มอบหมายความจำนี้ให้สมาชิกในบ้าน (Family Feature)</label>
+      <select class="input" id="familyMemberInput">
+        <option value="ตัวเอง">👤 ตัวเอง</option>
+        <option value="คุณแม่ 👩">คุณแม่ 👩</option>
+        <option value="คุณพ่อ 👨">คุณพ่อ 👨</option>
+        <option value="ลูก/เด็กๆ 🧒">ลูก/เด็กๆ 🧒</option>
+        <option value="ทุกคนในบ้าน 🏠">ทุกคนในบ้าน 🏠</option>
       </select>
-
     </div>
 
-
-    <div class="field">
-
-      <label>
-        ⭐ ความสำคัญ
-      </label>
-
-      <select
-        class="input"
-        id="priorityInput">
-
-        <option value="ปกติ">
-          💜 ปกติ
-        </option>
-
-        <option value="สำคัญ">
-          ⭐ สำคัญ
-        </option>
-
-        <option value="ด่วน">
-          🔥 ด่วน
-        </option>
-
+    <!-- ฟังก์ชันเฉพาะ Role: Personal Incognito -->
+    <div class="field" id="incognitoField" style="display:none;">
+      <label style="color:#d9534f;">🔒 โหมดความจำลับส่วนตัว (Incognito Memory)</label>
+      <select class="input" id="incognitoInput">
+        <option value="false">🌐 บันทึกปกติ (แสดงในไทม์ไลน์/สถิติ)</option>
+        <option value="true">🔒 ซ่อนไว้เฉพาะเครื่องนี้ (ไม่นับสถิติ)</option>
       </select>
-
     </div>
 
-
     <div class="field">
-
-      <label>
-        📅 วันและเวลาแจ้งเตือน
-      </label>
-
-      <input
-        class="input"
-        id="timeInput"
-        type="datetime-local">
-
+      <label>🏷️ หมวดหมู่ความจำ (Master Data)</label>
+      <select class="input" id="categoryInput">
+        <option value="ชีวิตประจำวัน">🏠 ชีวิตประจำวัน (ของใช้/วางของ)</option>
+        <option value="ซื้อของ">🛒 ช้อปปิ้ง / ซื้อของ</option>
+        <option value="งาน">💼 งานและเรียน</option>
+        <option value="สุขภาพ">💊 สุขภาพ / ยา</option>
+      </select>
     </div>
 
-
-    <!-- PHOTO -->
+    <div class="field">
+      <label>⭐ ความสำคัญ / ความด่วน</label>
+      <select class="input" id="priorityInput">
+        <option value="ปกติ">💜 ปกติ</option>
+        <option value="สำคัญ">⭐ สำคัญ</option>
+        <option value="ด่วนที่สุด">🔥 ด่วนที่สุด (ห้ามลืม!)</option>
+      </select>
+    </div>
 
     <div class="field">
+      <label>⏰ กำหนดเวลาแจ้งเตือน (Reminder Time)</label>
+      <input class="input" id="timeInput" type="datetime-local">
+    </div>
 
-      <label>
-        📷 ถ่ายรูป / รูปของที่วางไว้
-      </label>
+    <div class="field">
+      <label>📍 พิกัด / สถานที่วางไว้ / สถานที่ที่จะไป</label>
+      <input class="input" id="locationInput" placeholder="เช่น โต๊ะทำงานชั้น 2 / ร้านสะดวกซื้อหน้าปากซอย">
+    </div>
 
+    <div class="field">
+      <label>📷 ถ่ายรูปสิ่งของ / บันทึกภาพสถานที่กันลืม</label>
       <div class="photo-buttons">
-
-        <button
-          class="photo-btn"
-          onclick="openCamera()">
-
-          📷 เปิดกล้อง
-
-        </button>
-
-        <button
-          class="photo-btn"
-          onclick="openGallery()">
-
-          🖼️ เลือกรูป
-
-        </button>
-
+        <button class="photo-btn" onclick="openCamera()">📷 ถ่ายรูป</button>
+        <button class="photo-btn" onclick="openGallery()">🖼️ เลือกรูป</button>
       </div>
-
-
-      <input
-        type="file"
-        id="cameraInput"
-        accept="image/*"
-        capture="environment"
-        style="display:none"
-        onchange="previewPhoto(event)">
-
-
-      <input
-        type="file"
-        id="galleryInput"
-        accept="image/*"
-        style="display:none"
-        onchange="previewPhoto(event)">
-
-
-      <img
-        id="photoPreview"
-        class="photo-preview">
-
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
+      <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="previewPhoto(event)">
+      <img id="photoPreview" class="photo-preview">
     </div>
 
-
-    <div class="field">
-
-      <label>
-        📍 วางไว้ที่ไหน?
-      </label>
-
-      <input
-        class="input"
-        id="locationInput"
-        placeholder="เช่น บนโต๊ะข้างเตียง">
-
-    </div>
-
-
-    <button
-      class="main-btn"
-      id="saveButton"
-      onclick="saveTask()">
-
-      💾 บันทึกความจำ
-
-    </button>
-
-
-    <button
-      class="cancel-btn"
-      onclick="closeModal('addModal')">
-
-      ยกเลิก
-
-    </button>
-
+    <button class="main-btn" id="saveButton" onclick="saveTask()">💾 บันทึกความจำลงระบบ</button>
+    <button class="cancel-btn" onclick="closeModal('addModal')">ยกเลิก</button>
   </div>
-
 </div>
 
-
-<!-- TOAST -->
-
-<div
-  class="toast"
-  id="toast">
+<!-- TRASH MODAL -->
+<div class="modal" id="trashModal">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h2>♻️ ถังขยะความทรงจำ</h2>
+    <div id="trashList" style="max-height:320px; overflow-y:auto; margin-bottom:15px;"></div>
+    <button class="cancel-btn" onclick="closeModal('trashModal')">ปิดหน้าต่าง</button>
+  </div>
 </div>
 
+<div class="toast" id="toast"></div>
 
 <script>
+/* DATA & INITIAL STATE */
+let userName = localStorage.getItem("memorySimpleUser") || "";
+let userRole = localStorage.getItem("memoryUserRole") || "Personal";
 
-/* =====================================================
-   DATABASE
-===================================================== */
+let masterCategories = JSON.parse(localStorage.getItem("memoryCategories") || '[\
+  {"name":"ชีวิตประจำวัน", "icon":"🏠", "count":0},\
+  {"name":"ซื้อของ", "icon":"🛒", "count":0},\
+  {"name":"งาน", "icon":"💼", "count":0},\
+  {"name":"สุขภาพ", "icon":"💊", "count":0}\
+]');
 
-let userName =
-  localStorage.getItem("memorySimpleUser") || "";
-
-let tasks =
-  JSON.parse(
-    localStorage.getItem("memoryTasks") || "[]"
-  );
-
-let settings =
-  JSON.parse(
-    localStorage.getItem("memorySettings") ||
-    '{"dark":false,"large":false}'
-  );
+let tasks = JSON.parse(localStorage.getItem("memoryTasks") || "[]");
+let trashTasks = JSON.parse(localStorage.getItem("memoryTrash") || "[]");
+let settings = JSON.parse(localStorage.getItem("memorySettings") || '{"dark":false}');
 
 let editingId = null;
 let selectedPhoto = "";
+let lastDeletedTask = null;
 
-
-/* =====================================================
-   START
-===================================================== */
-
-window.addEventListener("load",()=>{
-
+window.addEventListener("load", ()=>{
   if(userName){
-
     openApp();
-
   }else{
-
-    document
-      .getElementById("loginScreen")
-      .classList.remove("hide");
-
+    document.getElementById("loginScreen").classList.remove("hide");
   }
-
   updateClock();
-
-  setInterval(updateClock,1000);
-
+  setInterval(updateClock, 1000);
   checkReminders();
-
-  setInterval(checkReminders,30000);
-
+  setInterval(checkReminders, 15000);
 });
 
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
+/* LOGIN & ROLES SETUP */
 function simpleLogin(){
-
-  const name =
-    document
-      .getElementById("nameInput")
-      .value
-      .trim();
+  const name = document.getElementById("nameInput").value.trim();
+  const role = document.getElementById("userRoleInput").value;
 
   if(!name){
-
-    showToast(
-      "ใส่ชื่อก่อนน้า 🌷"
-    );
-
+    showToast("กรุณาใส่ชื่อของคุณก่อนน้า 🌷");
     return;
   }
 
-  userName=name;
+  userName = name;
+  userRole = role;
 
-  localStorage.setItem(
-    "memorySimpleUser",
-    userName
-  );
+  localStorage.setItem("memorySimpleUser", userName);
+  localStorage.setItem("memoryUserRole", userRole);
 
   openApp();
-
-  showToast(
-    "ยินดีต้อนรับ "+userName+" 💜"
-  );
-
+  showToast("ยินดีต้อนรับคุณ "+userName+" 💜");
 }
 
+function switchRole(newRole){
+  userRole = newRole;
+  localStorage.setItem("memoryUserRole", userRole);
+  loadUser();
+  renderAll();
+  showToast("สลับรูปแบบบัญชีเป็น: " + getRoleTitle(newRole));
+}
 
 function openApp(){
-
-  document
-    .getElementById("loginScreen")
-    .classList.add("hide");
-
-  document
-    .getElementById("app")
-    .style.display="block";
-
+  document.getElementById("loginScreen").classList.add("hide");
+  document.getElementById("app").style.display="block";
   loadUser();
-
   applySettings();
-
   renderAll();
-
 }
 
+function getRoleTitle(role){
+  if(role === 'Family') return '👨‍👩‍👧 Family Shared';
+  return '🌸 Personal Account';
+}
 
 function loadUser(){
+  const short = userName.substring(0,2).toUpperCase();
+  document.getElementById("helloName").textContent = userName + " 👋";
+  document.getElementById("avatarText").textContent = short;
+  document.getElementById("profileAvatar").textContent = short;
+  document.getElementById("profileName").textContent = userName;
+  
+  const roleText = getRoleTitle(userRole);
+  document.getElementById("userRoleBadge").textContent = roleText;
+  document.getElementById("profileRoleText").textContent = "สิทธิ์การใช้งาน: " + roleText;
+  
+  const roleSelect = document.getElementById("switchRoleSelect");
+  if(roleSelect) roleSelect.value = userRole;
 
-  const short =
-    userName
-      .substring(0,2)
-      .toUpperCase();
-
-  document
-    .getElementById("helloName")
-    .textContent =
-      userName+" 👋";
-
-  document
-    .getElementById("avatarText")
-    .textContent=short;
-
-  document
-    .getElementById("profileAvatar")
-    .textContent=short;
-
-  document
-    .getElementById("profileName")
-    .textContent=userName;
-
+  // ปรับ UI ตามบทบาท Role
+  document.getElementById("familyAssignField").style.display = (userRole === 'Family') ? 'block' : 'none';
+  document.getElementById("incognitoField").style.display = (userRole === 'Personal') ? 'block' : 'none';
 }
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
 
 function logout(){
-
-  if(!confirm(
-    "ออกจากระบบใช่ไหม?"
-  )) return;
-
-  localStorage.removeItem(
-    "memorySimpleUser"
-  );
-
+  if(!confirm("ต้องการออกจากระบบใช่ไหม?")) return;
+  localStorage.removeItem("memorySimpleUser");
+  localStorage.removeItem("memoryUserRole");
   userName="";
-
-  document
-    .getElementById("app")
-    .style.display="none";
-
-  document
-    .getElementById("loginScreen")
-    .classList.remove("hide");
-
-  showToast(
-    "ออกจากระบบแล้ว 👋"
-  );
-
+  document.getElementById("app").style.display="none";
+  document.getElementById("loginScreen").classList.remove("hide");
+  showToast("ออกจากระบบแล้ว 👋");
 }
 
+/* PAGE NAVIGATION */
+function showPage(id, btn){
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  const page = document.getElementById(id);
+  if(page) page.classList.add("active");
 
-/* =====================================================
-   PAGE
-===================================================== */
-
-function showPage(id,btn){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(p=>
-      p.classList.remove("active")
-    );
-
-  const page =
-    document.getElementById(id);
-
-  if(page)
-    page.classList.add("active");
-
-
-  document
-    .querySelectorAll(".nav button")
-    .forEach(b=>
-      b.classList.remove("active")
-    );
-
+  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
 
   if(btn){
-
     btn.classList.add("active");
-
   }else{
-
-    document
-      .querySelectorAll(".nav button")
-      .forEach(b=>{
-
-        const click =
-          b.getAttribute("onclick") || "";
-
-        if(
-          click.includes(
-            "'"+id+"'"
-          )
-        ){
-          b.classList.add("active");
-        }
-
-      });
-
+    document.querySelectorAll(".nav button").forEach(b => {
+      const click = b.getAttribute("onclick") || "";
+      if(click.includes("'"+id+"'")) b.classList.add("active");
+    });
   }
-
   renderAll();
-
 }
-
-
-/* =====================================================
-   SAVE
-===================================================== */
 
 function saveTasks(){
-
-  localStorage.setItem(
-    "memoryTasks",
-    JSON.stringify(tasks)
-  );
-
+  localStorage.setItem("memoryTasks", JSON.stringify(tasks));
 }
 
+function saveTrash(){
+  localStorage.setItem("memoryTrash", JSON.stringify(trashTasks));
+  const badge = document.getElementById("trashCountBadge");
+  if(badge) badge.textContent = trashTasks.length;
+}
 
-/* =====================================================
-   ADD
-===================================================== */
-
+/* CRUD TRANSACTIONS */
 function openAdd(){
+  editingId = null;
+  document.getElementById("taskInput").value = "";
+  document.getElementById("locationInput").value = "";
+  document.getElementById("timeInput").value = "";
+  document.getElementById("categoryInput").value = "ชีวิตประจำวัน";
+  document.getElementById("priorityInput").value = "ปกติ";
+  document.getElementById("familyMemberInput").value = "ตัวเอง";
+  document.getElementById("incognitoInput").value = "false";
 
-  editingId=null;
-
-  document
-    .getElementById("taskInput")
-    .value="";
-
-  document
-    .getElementById("locationInput")
-    .value="";
-
-  document
-    .getElementById("timeInput")
-    .value="";
-
-  document
-    .getElementById("categoryInput")
-    .value="ชีวิตประจำวัน";
-
-  document
-    .getElementById("priorityInput")
-    .value="ปกติ";
-
-  selectedPhoto="";
-
-  document
-    .getElementById("photoPreview")
-    .style.display="none";
-
-  document
-    .getElementById("saveButton")
-    .textContent=
-      "💾 บันทึกความจำ";
-
+  selectedPhoto = "";
+  document.getElementById("photoPreview").style.display = "none";
+  document.getElementById("saveButton").textContent = "💾 บันทึกความจำ";
   openModal("addModal");
-
 }
 
-
-function quickAdd(category){
-
-  const examples={
-
-    "ซื้อของ":
-      "ซื้อของก่อนกลับบ้าน",
-
-    "คนอื่น":
-      "โทรหาใครบางคน",
-
-    "ชีวิตประจำวัน":
-      "ของชิ้นนี้วางไว้ตรงนี้",
-
-    "งาน":
-      "ทำงานที่ค้างไว้"
-
-  };
-
+function quickAdd(category, placeholder){
   openAdd();
-
-  document
-    .getElementById("categoryInput")
-    .value=category;
-
-  document
-    .getElementById("taskInput")
-    .value=
-      examples[category];
-
+  document.getElementById("categoryInput").value = category;
+  document.getElementById("taskInput").value = placeholder;
 }
-
-
-/* =====================================================
-   SAVE TASK
-===================================================== */
 
 function saveTask(){
-
-  const text =
-    document
-      .getElementById("taskInput")
-      .value
-      .trim();
-
+  const text = document.getElementById("taskInput").value.trim();
   if(!text){
-
-    showToast(
-      "บอกเราก่อนว่าจะให้จำอะไร 🧠"
-    );
-
+    showToast("ระบุเรื่องที่ต้องทำก่อนน้า 🧠");
     return;
   }
 
-
-  const category =
-    document
-      .getElementById("categoryInput")
-      .value;
-
-  const priority =
-    document
-      .getElementById("priorityInput")
-      .value;
-
-  const time =
-    document
-      .getElementById("timeInput")
-      .value;
-
-  const location =
-    document
-      .getElementById("locationInput")
-      .value
-      .trim();
-
+  const category = document.getElementById("categoryInput").value;
+  const priority = document.getElementById("priorityInput").value;
+  const time = document.getElementById("timeInput").value;
+  const location = document.getElementById("locationInput").value.trim();
+  const familyMember = document.getElementById("familyMemberInput").value;
+  const isIncognito = document.getElementById("incognitoInput").value === "true";
 
   if(editingId){
-
-    const task =
-      tasks.find(
-        t=>t.id===editingId
-      );
-
+    const task = tasks.find(t => t.id === editingId);
     if(task){
-
-      task.text=text;
-      task.category=category;
-      task.priority=priority;
-      task.time=time;
-      task.location=location;
-
-      if(selectedPhoto)
-        task.photo=selectedPhoto;
-
+      task.text = text;
+      task.category = category;
+      task.priority = priority;
+      task.time = time;
+      task.location = location;
+      task.familyMember = familyMember;
+      task.isIncognito = isIncognito;
+      if(selectedPhoto) task.photo = selectedPhoto;
     }
-
-    showToast(
-      "แก้ไขความจำแล้ว ✨"
-    );
-
+    showToast("อัปเดตบันทึกเรียบร้อย ✨");
   }else{
-
     tasks.unshift({
-
-      id:Date.now(),
-
+      id: Date.now(),
       text,
-
       category,
-
       priority,
-
       time,
-
       location,
-
-      photo:selectedPhoto,
-
-      done:false,
-
-      created:new Date().toISOString()
-
+      familyMember: (userRole==='Family') ? familyMember : 'ตัวเอง',
+      isIncognito: (userRole==='Personal') ? isIncognito : false,
+      status: "รอดำเนินการ",
+      photo: selectedPhoto,
+      done: false,
+      created: new Date().toISOString()
     });
-
-    showToast(
-      "🧠 จำไว้ให้แล้ว! 💜"
-    );
-
+    showToast("🧠 บันทึกความทรงจำแล้ว!");
   }
 
-
   saveTasks();
-
   renderAll();
-
   closeModal("addModal");
-
 }
-
-
-/* =====================================================
-   EDIT
-===================================================== */
 
 function editTask(id){
-
-  const task =
-    tasks.find(
-      t=>t.id===id
-    );
-
+  const task = tasks.find(t => t.id === id);
   if(!task) return;
 
-  editingId=id;
+  editingId = id;
+  document.getElementById("taskInput").value = task.text;
+  document.getElementById("categoryInput").value = task.category;
+  document.getElementById("priorityInput").value = task.priority;
+  document.getElementById("timeInput").value = task.time || "";
+  document.getElementById("locationInput").value = task.location || "";
+  document.getElementById("familyMemberInput").value = task.familyMember || "ตัวเอง";
+  document.getElementById("incognitoInput").value = task.isIncognito ? "true" : "false";
 
-  document
-    .getElementById("taskInput")
-    .value=task.text;
-
-  document
-    .getElementById("categoryInput")
-    .value=task.category;
-
-  document
-    .getElementById("priorityInput")
-    .value=task.priority;
-
-  document
-    .getElementById("timeInput")
-    .value=task.time || "";
-
-  document
-    .getElementById("locationInput")
-    .value=task.location || "";
-
-  selectedPhoto =
-    task.photo || "";
-
-  const preview =
-    document
-      .getElementById("photoPreview");
-
+  selectedPhoto = task.photo || "";
+  const preview = document.getElementById("photoPreview");
   if(selectedPhoto){
-
-    preview.src=selectedPhoto;
-
-    preview.style.display="block";
-
+    preview.src = selectedPhoto;
+    preview.style.display = "block";
   }else{
-
-    preview.style.display="none";
-
+    preview.style.display = "none";
   }
 
-  document
-    .getElementById("saveButton")
-    .textContent=
-      "✨ บันทึกการแก้ไข";
-
+  document.getElementById("saveButton").textContent = "✨ แก้ไขความจำ";
   openModal("addModal");
-
 }
 
-
-/* =====================================================
-   DELETE SINGLE
-===================================================== */
-
+/* DELETE & TRASH / RESTORE / UNDO SYSTEM */
 function deleteTask(id){
+  const index = tasks.findIndex(t => t.id === id);
+  if(index === -1) return;
 
-  const task =
-    tasks.find(
-      t=>t.id===id
-    );
-
-  if(!task) return;
-
-  if(!confirm(
-    "ลบ “"+task.text+"” ใช่ไหม?"
-  )) return;
-
-  tasks =
-    tasks.filter(
-      t=>t.id!==id
-    );
-
+  const deleted = tasks.splice(index, 1)[0];
+  lastDeletedTask = { task: deleted, index: index };
+  
+  trashTasks.unshift({ ...deleted, deletedAt: new Date().toISOString() });
+  
   saveTasks();
-
+  saveTrash();
   renderAll();
 
-  showToast(
-    "🗑️ ลบข้อมูลแล้ว"
-  );
-
+  showToastWithUndo("🗑️ ลบความจำแล้ว", undoLastDelete);
 }
 
+function undoLastDelete(){
+  if(!lastDeletedTask) return;
+  tasks.splice(lastDeletedTask.index, 0, lastDeletedTask.task);
+  trashTasks = trashTasks.filter(t => t.id !== lastDeletedTask.task.id);
+  lastDeletedTask = null;
+  
+  saveTasks();
+  saveTrash();
+  renderAll();
+  showToast("✨ เรียกคืนความทรงจำเรียบร้อย!");
+}
 
-/* =====================================================
-   TOGGLE
-===================================================== */
+function restoreTask(id){
+  const task = trashTasks.find(t => t.id === id);
+  if(!task) return;
+
+  delete task.deletedAt;
+  tasks.unshift(task);
+  trashTasks = trashTasks.filter(t => t.id !== id);
+
+  saveTasks();
+  saveTrash();
+  renderAll();
+  renderTrashList();
+  showToast("♻️ กู้คืน “" + task.text + "” เรียบร้อย");
+}
+
+function openTrashModal(){
+  renderTrashList();
+  openModal("trashModal");
+}
+
+function renderTrashList(){
+  const box = document.getElementById("trashList");
+  saveTrash();
+  
+  if(!trashTasks.length){
+    box.innerHTML = `<div class="empty">ไม่มีรายการในถังขยะ 🌸</div>`;
+    return;
+  }
+
+  box.innerHTML = trashTasks.map(t => `
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--line);">
+      <div style="flex:1; font-size:12px; font-weight:bold;">
+        ${escapeHTML(t.text)}
+        <div style="font-size:9px; color:var(--muted); font-weight:normal;">ลบเมื่อ: ${formatCreated(t.deletedAt)}</div>
+      </div>
+      <button class="small-btn" onclick="restoreTask(${t.id})">♻️ เรียกคืน</button>
+    </div>
+  `).join("");
+}
+
+/* FAMILY FEATURE: SHARE TO LINE/MSG */
+function shareFamilyTask(id){
+  const task = tasks.find(t => t.id === id);
+  if(!task) return;
+
+  const shareText = `👨‍👩‍👧 [ฝากความจำครอบครัว]\nเรื่อง: ${task.text}\nมอบหมายให้: ${task.familyMember || 'ทุกคน'}\nพิกัด/สถานที่: ${task.location || '-'}`;
+  if (navigator.share) {
+    navigator.share({ title: 'ฝากความจำ', text: shareText });
+  } else {
+    navigator.clipboard.writeText(shareText);
+    showToast("📋 คัดลอกข้อความสำหรับส่งในแชทครอบครัวแล้ว!");
+  }
+}
+
+/* STATUS TRACKING */
+function changeStatus(id, newStatus){
+  const task = tasks.find(t => t.id === id);
+  if(!task) return;
+
+  task.status = newStatus;
+  task.done = (newStatus === "ทำเสร็จแล้ว");
+
+  saveTasks();
+  renderAll();
+  showToast("อัปเดตสถานะเป็น: " + newStatus);
+}
 
 function toggleTask(id){
-
-  const task =
-    tasks.find(
-      t=>t.id===id
-    );
-
+  const task = tasks.find(t => t.id === id);
   if(!task) return;
 
-  task.done=!task.done;
+  task.done = !task.done;
+  task.status = task.done ? "ทำเสร็จแล้ว" : "รอดำเนินการ";
 
   saveTasks();
-
   renderAll();
-
-  showToast(
-    task.done
-      ?"🎉 ทำสำเร็จแล้ว!"
-      :"นำกลับมาไว้แล้ว"
-  );
-
+  showToast(task.done ? "🎉 จัดการความจำนี้เรียบร้อย!" : "นำกลับมาทำใหม่");
 }
 
-
-/* =====================================================
-   RENDER ALL
-===================================================== */
-
-function renderAll(){
-
-  renderHome();
-
-  renderTasks();
-
-  renderTimeline();
-
-  renderStats();
-
-  renderProfile();
-
-  renderReminder();
-
+function calculateTimeElapsed(createdIso){
+  const diffMs = new Date() - new Date(createdIso);
+  const mins = Math.floor(diffMs / 60000);
+  if(mins < 1) return "เมื่อสักครู่นี้";
+  if(mins < 60) return `ผ่านไป ${mins} นาทีแล้ว`;
+  const hours = Math.floor(mins / 60);
+  if(hours < 24) return `ผ่านไป ${hours} ชั่วโมงแล้ว`;
+  const days = Math.floor(hours / 24);
+  return `ผ่านไป ${days} วันแล้ว`;
 }
 
-
-/* =====================================================
-   TASK HTML
-===================================================== */
-
+/* HTML RENDERING */
 function taskHTML(t){
+  const badgeClass = t.priority==="ด่วนที่สุด"?"red":t.priority==="สำคัญ"?"orange":"purple";
+  const timeElapsed = calculateTimeElapsed(t.created);
 
-  const badge =
-    t.priority==="ด่วน"
-      ?"red"
-      :t.priority==="สำคัญ"
-      ?"orange"
-      :"purple";
-
-
-  let html=`
-
-    <div class="card">
-
+  let html = `
+    <div class="card" style="${t.isIncognito ? 'border:2px dashed #9b7cff; background:#fbf9ff;' : ''}">
       <div class="task">
-
-        <button
-          class="check ${t.done?"done":""}"
-          onclick="toggleTask(${t.id})">
-
+        <button class="check ${t.done?"done":""}" onclick="toggleTask(${t.id})">
           ${t.done?"✓":""}
-
         </button>
-
 
         <div class="task-main">
-
-          <div
-            class="task-title
-            ${t.done?"done-text":""}">
-
-            ${escapeHTML(t.text)}
-
+          <div class="task-title ${t.done?"done-text":""}">
+            ${t.isIncognito ? '🔒 ' : ''}${escapeHTML(t.text)}
           </div>
-
 
           <div class="task-meta">
-
-            ${categoryIcon(t.category)}
-            ${escapeHTML(t.category)}
-
-            ${
-              t.time
-              ?
-              " • ⏰ "+formatThaiDate(t.time)
-              :
-              ""
-            }
-
+            ${categoryIcon(t.category)} ${escapeHTML(t.category)}
+            • ⏱️ ${timeElapsed}
+            ${t.time ? " • ⏰ เตือน "+formatThaiDate(t.time) : ""}
           </div>
-
         </div>
 
-
-        <span class="badge ${badge}">
-
-          ${t.priority}
-
-        </span>
-
+        <span class="badge ${badgeClass}">${t.priority}</span>
       </div>
-
   `;
 
+  if(t.familyMember && t.familyMember !== 'ตัวเอง'){
+    html += `<div class="family-box">👨‍👩‍👧 มอบหมายให้: ${escapeHTML(t.familyMember)}</div>`;
+  }
 
   if(t.location){
-
-    html+=`
-
+    html += `
       <div class="location-box">
-
-        📍 วางไว้:
-        ${escapeHTML(t.location)}
-
+        📍 จุดที่วางของ / สถานที่: ${escapeHTML(t.location)}
       </div>
-
     `;
-
   }
-
 
   if(t.photo){
-
-    html+=`
-
-      <img
-        class="memory-photo"
-        src="${t.photo}"
-        alt="รูปความทรงจำ">
-
-    `;
-
+    html += `<img class="memory-photo" src="${t.photo}" alt="รูปความทรงจำ">`;
   }
 
-
-  html+=`
-
-      <div class="task-actions">
-
-        <button
-          class="small-btn"
-          onclick="editTask(${t.id})">
-
-          ✏️ แก้ไข
-
-        </button>
-
-        <button
-          class="small-btn delete-btn"
-          onclick="deleteTask(${t.id})">
-
-          🗑️ ลบ
-
-        </button>
-
-      </div>
-
+  html += `
+    <div style="margin-top:10px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--line); padding-top:8px;">
+      <small style="font-size:10px; color:var(--muted);">สถานะ:</small>
+      <select onchange="changeStatus(${t.id}, this.value)" style="padding:3px 8px; border-radius:8px; font-size:10px; border:1px solid var(--line); font-weight:bold;">
+        <option value="รอดำเนินการ" ${t.status==='รอดำเนินการ'?'selected':''}>⏳ รอดำเนินการ</option>
+        <option value="กำลังทำ" ${t.status==='กำลังทำ'?'selected':''}>💡 กำลังทำ</option>
+        <option value="ทำเสร็จแล้ว" ${t.status==='ทำเสร็จแล้ว'?'selected':''}>✅ ทำเสร็จแล้ว</option>
+        <option value="ข้าม/เลื่อน" ${t.status==='ข้าม/เลื่อน'?'selected':''}>⏩ ข้าม/เลื่อนออกไป</option>
+      </select>
     </div>
+  `;
 
+  html += `
+      <div class="task-actions">
+        <button class="small-btn" onclick="editTask(${t.id})">✏️ แก้ไข</button>
+        ${userRole === 'Family' ? `<button class="small-btn share-btn" onclick="shareFamilyTask(${t.id})">📲 แชร์ให้บ้าน</button>` : ''}
+        <button class="small-btn delete-btn" onclick="deleteTask(${t.id})">🗑️ ลบ</button>
+      </div>
+    </div>
   `;
 
   return html;
-
 }
-
-
-/* =====================================================
-   HOME
-===================================================== */
 
 function renderHome(){
-
-  const box =
-    document
-      .getElementById("homeTasks");
-
-  const pending =
-    tasks
-      .filter(t=>!t.done)
-      .slice(0,3);
-
+  const box = document.getElementById("homeTasks");
+  const pending = tasks.filter(t => !t.done).slice(0,4);
 
   if(!pending.length){
-
-    box.innerHTML=`
-
+    box.innerHTML = `
       <div class="card empty">
-
-        <div>
-          🎉
-        </div>
-
-        ไม่มีสิ่งที่ค้างอยู่
-
-        <br>
-
-        <small>
-          วันนี้คุณเก่งมากเลยนะ 💜
-        </small>
-
+        <div>🎉</div>
+        ไม่มีสิ่งที่ต้องทำค้างอยู่
+        <br><small>สมองปลอดโปร่ง ไร้เรื่องกังวลใจ 💜</small>
       </div>
-
     `;
-
     return;
   }
-
-
-  box.innerHTML =
-    pending
-      .map(taskHTML)
-      .join("");
-
+  box.innerHTML = pending.map(taskHTML).join("");
 }
-
-
-/* =====================================================
-   ALL TASKS
-===================================================== */
 
 function renderTasks(){
+  const box = document.getElementById("allTasks");
+  const search = document.getElementById("searchInput")?.value.toLowerCase().trim() || "";
 
-  const box =
-    document
-      .getElementById("allTasks");
-
-  const input =
-    document
-      .getElementById("searchInput");
-
-  const search =
-    input
-      ?.value
-      .toLowerCase()
-      .trim() || "";
-
-
-  const filtered =
-    tasks.filter(t=>
-
-      t.text
-        .toLowerCase()
-        .includes(search)
-
-      ||
-
-      t.category
-        .toLowerCase()
-        .includes(search)
-
-      ||
-
-      (t.location || "")
-        .toLowerCase()
-        .includes(search)
-
-    );
-
+  const filtered = tasks.filter(t => 
+    t.text.toLowerCase().includes(search) ||
+    t.category.toLowerCase().includes(search) ||
+    (t.location || "").toLowerCase().includes(search)
+  );
 
   if(!filtered.length){
-
-    box.innerHTML=`
-
-      <div class="card empty">
-
-        <div>
-          🔎
-        </div>
-
-        ไม่พบความทรงจำ
-
-      </div>
-
-    `;
-
+    box.innerHTML = `<div class="card empty"><div>🔎</div>ไม่พบรายการความจำที่ค้นหา</div>`;
     return;
   }
 
-
-  box.innerHTML =
-    [...filtered]
-      .sort(
-        (a,b)=>
-          Number(a.done)-
-          Number(b.done)
-      )
-      .map(taskHTML)
-      .join("");
-
+  box.innerHTML = [...filtered]
+    .sort((a,b) => Number(a.done) - Number(b.done))
+    .map(taskHTML)
+    .join("");
 }
-
-
-/* =====================================================
-   TIMELINE
-===================================================== */
 
 function renderTimeline(){
+  const box = document.getElementById("timelineList");
+  const visibleTasks = tasks.filter(t => !t.isIncognito);
 
-  const box =
-    document
-      .getElementById("timelineList");
-
-
-  if(!tasks.length){
-
-    box.innerHTML=`
-
-      <div class="empty">
-        ยังไม่มีความทรงจำ 🌷
-      </div>
-
-    `;
-
+  if(!visibleTasks.length){
+    box.innerHTML = `<div class="empty">ยังไม่มีบันทึกไทม์ไลน์ความทรงจำ 🌷</div>`;
     return;
-
   }
 
-
-  box.innerHTML =
-    [...tasks]
-      .sort(
-        (a,b)=>
-          new Date(b.created)-
-          new Date(a.created)
-      )
-      .map(t=>`
-
-        <div class="event">
-
-          <div class="event-time">
-
-            ${formatCreated(t.created)}
-
-          </div>
-
-          <div class="event-text">
-
-            ${categoryIcon(t.category)}
-            ${escapeHTML(t.text)}
-
-          </div>
-
+  box.innerHTML = [...visibleTasks]
+    .sort((a,b) => new Date(b.created) - new Date(a.created))
+    .map(t => `
+      <div class="event">
+        <div class="event-time">${formatCreated(t.created)} • สถานะ: <b>${t.status || 'รอดำเนินการ'}</b></div>
+        <div class="event-text">
+          ${categoryIcon(t.category)} ${escapeHTML(t.text)}
         </div>
-
-      `)
-      .join("");
-
+      </div>
+    `).join("");
 }
-
-
-/* =====================================================
-   STATS
-===================================================== */
 
 function renderStats(){
+  const validTasks = tasks.filter(t => !t.isIncognito);
+  const total = validTasks.length;
+  const done = validTasks.filter(t => t.done).length;
+  const pending = total - done;
+  const rate = total ? Math.round((done / total) * 100) : 0;
 
-  const total=tasks.length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statDone").textContent = done;
+  document.getElementById("statPending").textContent = pending;
+  document.getElementById("statRate").textContent = rate + "%";
+  document.getElementById("progressBar").style.width = rate + "%";
 
-  const done =
-    tasks.filter(
-      t=>t.done
-    ).length;
-
-  const today =
-    tasks.filter(t=>{
-
-      if(!t.created)
-        return false;
-
-      const d =
-        new Date(t.created);
-
-      const now =
-        new Date();
-
-      return(
-        d.getDate()===now.getDate() &&
-        d.getMonth()===now.getMonth() &&
-        d.getFullYear()===now.getFullYear()
-      );
-
-    }).length;
-
-
-  const rate =
-    total
-      ?Math.round(
-        done/total*100
-      )
-      :0;
-
-
-  document
-    .getElementById("statTotal")
-    .textContent=total;
-
-  document
-    .getElementById("statDone")
-    .textContent=done;
-
-  document
-    .getElementById("statToday")
-    .textContent=today;
-
-  document
-    .getElementById("statRate")
-    .textContent=
-      rate+"%";
-
-  document
-    .getElementById("progressBar")
-    .style.width=
-      rate+"%";
-
-
-  document
-    .getElementById("workCount")
-    .textContent=
-      tasks.filter(
-        t=>t.category==="งาน"
-      ).length;
-
-
-  document
-    .getElementById("lifeCount")
-    .textContent=
-      tasks.filter(
-        t=>t.category==="ชีวิตประจำวัน"
-      ).length;
-
-
-  document
-    .getElementById("shopCount")
-    .textContent=
-      tasks.filter(
-        t=>t.category==="ซื้อของ"
-      ).length;
-
-
-  document
-    .getElementById("peopleCount")
-    .textContent=
-      tasks.filter(
-        t=>t.category==="คนอื่น"
-      ).length;
-
+  renderMasterCategories();
 }
 
+function renderMasterCategories(){
+  const box = document.getElementById("masterDataBox");
+  if(!box) return;
 
-/* =====================================================
-   PROFILE
-===================================================== */
+  let html = "";
+  masterCategories.forEach(cat => {
+    const count = tasks.filter(t => t.category === cat.name && !t.isIncognito).length;
+    html += `
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--line);">
+        <div>
+          <span>${cat.icon} <b>${cat.name}</b></span>
+        </div>
+        <div>
+          <span class="badge purple">บันทึกไว้ ${count} เรื่อง</span>
+        </div>
+      </div>
+    `;
+  });
+  box.innerHTML = html;
+}
 
 function renderProfile(){
-
-  document
-    .getElementById("profileTaskCount")
-    .textContent=
-      tasks.length;
-
-  document
-    .getElementById("profileDoneCount")
-    .textContent=
-      tasks.filter(
-        t=>t.done
-      ).length;
-
+  document.getElementById("profileTaskCount").textContent = tasks.length;
+  document.getElementById("profileDoneCount").textContent = tasks.filter(t => t.done).length;
 }
-
-
-/* =====================================================
-   REMINDER
-===================================================== */
 
 function renderReminder(){
+  const box = document.getElementById("nextReminder");
+  const now = Date.now();
 
-  const box =
-    document
-      .getElementById("nextReminder");
-
-  const now =
-    Date.now();
-
-
-  const upcoming =
-    tasks
-      .filter(
-        t=>
-          !t.done &&
-          t.time &&
-          new Date(t.time).getTime()>now
-      )
-      .sort(
-        (a,b)=>
-          new Date(a.time)-
-          new Date(b.time)
-      )[0];
-
+  const upcoming = tasks
+    .filter(t => !t.done && t.time && new Date(t.time).getTime() > now)
+    .sort((a,b) => new Date(a.time) - new Date(b.time))[0];
 
   if(!upcoming){
-
-    box.innerHTML="";
-
+    box.innerHTML = "";
     return;
-
   }
 
-
-  box.innerHTML=`
-
+  box.innerHTML = `
     <div class="reminder">
-
-      <div class="reminder-icon">
-        🔔
-      </div>
-
+      <div class="reminder-icon">🔔</div>
       <div class="reminder-text">
-
-        สิ่งที่กำลังจะถึง
-
-        <br>
-
-        ${escapeHTML(upcoming.text)}
-
+        การแจ้งเตือนถัดไป
+        <br>${escapeHTML(upcoming.text)}
       </div>
-
-      <div class="reminder-time">
-
-        ${formatThaiDate(upcoming.time)}
-
-      </div>
-
+      <div class="reminder-time">${formatThaiDate(upcoming.time)}</div>
     </div>
-
   `;
-
 }
 
+function renderOverdueAlerts(){
+  const box = document.getElementById("overdueAlertBox");
+  const now = new Date();
+  const overdue = tasks.filter(t => !t.done && (now - new Date(t.created)) > 86400000);
 
-/* =====================================================
-   NOTIFICATION
-===================================================== */
-
-async function requestNotification(){
-
-  if(!("Notification" in window)){
-
-    showToast(
-      "เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน"
-    );
-
-    return;
-
-  }
-
-
-  const permission =
-    await Notification.requestPermission();
-
-
-  if(permission==="granted"){
-
-    showToast(
-      "🔔 เปิดแจ้งเตือนแล้ว"
-    );
-
-    new Notification(
-      "เมื่อกี้ฉันจะทำอะไรนะ? 🧠",
-      {
-        body:
-          "เปิดแจ้งเตือนความจำเรียบร้อยแล้ว 💜"
-      }
-    );
-
+  if(overdue.length > 0){
+    box.innerHTML = `
+      <div class="reminder" style="background:#ffe5eb; border:1px solid #ff718f;">
+        <div class="reminder-icon">⚠️</div>
+        <div class="reminder-text" style="color:#e65472;">
+          <b>ลืมหรือเปล่านะ?</b> มีความจำ ${overdue.length} เรื่องที่ค้างมาเกิน 1 วันแล้ว<br>
+          <small>ลองตรวจสอบในรายการด่วนน้า 💕</small>
+        </div>
+      </div>
+    `;
   }else{
-
-    showToast(
-      "ยังไม่ได้เปิดการแจ้งเตือน"
-    );
-
+    box.innerHTML = "";
   }
-
 }
 
+function renderAll(){
+  saveTrash();
+  renderHome();
+  renderTasks();
+  renderTimeline();
+  renderStats();
+  renderProfile();
+  renderReminder();
+  renderOverdueAlerts();
+}
 
-/* =====================================================
-   CHECK REMINDERS
-===================================================== */
+/* NOTIFICATIONS */
+async function requestNotification(){
+  if(!("Notification" in window)){
+    showToast("ระบบเบราว์เซอร์นี้ไม่รองรับ Notification");
+    return;
+  }
+  const permission = await Notification.requestPermission();
+  if(permission === "granted"){
+    showToast("🔔 เปิดการแจ้งเตือนความจำแล้ว");
+    new Notification("เมื่อกี้ฉันจะทำอะไรนะ? 🧠", { body: "เปิดการแจ้งเตือนความจำส่วนตัวเรียบร้อยแล้ว 💜" });
+  }else{
+    showToast("ยังไม่ได้อนุญาตการแจ้งเตือน");
+  }
+}
 
 function checkReminders(){
+  const now = Date.now();
+  tasks.forEach(task => {
+    if(task.done || !task.time || task.notified) return;
 
-  const now =
-    Date.now();
+    const targetTime = new Date(task.time).getTime();
 
-
-  tasks.forEach(task=>{
-
-    if(
-      task.done ||
-      !task.time ||
-      task.notified
-    ){
-      return;
-    }
-
-
-    const target =
-      new Date(
-        task.time
-      ).getTime();
-
-
-    if(
-      target<=now &&
-      target>now-60000
-    ){
-
-      notifyTask(task);
-
-      task.notified=true;
-
-      saveTasks();
-
-    }
-
-  });
-
-}
-
-
-function notifyTask(task){
-
-  if(
-    "Notification" in window &&
-    Notification.permission==="granted"
-  ){
-
-    new Notification(
-      "🔔 ถึงเวลาแล้ว!",
-      {
-        body:
-          task.text+
-          (
-            task.location
-              ?" 📍 "+task.location
-              :""
-          ),
-        icon:""
+    if(targetTime <= now && targetTime > now - 60000){
+      if("Notification" in window && Notification.permission === "granted"){
+        new Notification("🔔 เตือนความจำ!", {
+          body: task.text + (task.location ? " 📍 "+task.location : "")
+        });
       }
-    );
-
-  }
-
-
-  showToast(
-    "🔔 "+task.text
-  );
-
+      showToast("🔔 ถึงเวลา: "+task.text);
+      task.notified = true;
+      saveTasks();
+    }
+  });
 }
 
-
-/* =====================================================
-   CAMERA
-===================================================== */
-
-function openCamera(){
-
-  document
-    .getElementById("cameraInput")
-    .click();
-
-}
-
-
-function openGallery(){
-
-  document
-    .getElementById("galleryInput")
-    .click();
-
-}
-
+/* CAMERA & GALLERY */
+function openCamera(){ document.getElementById("cameraInput").click(); }
+function openGallery(){ document.getElementById("galleryInput").click(); }
 
 function previewPhoto(event){
-
-  const file =
-    event.target.files[0];
-
+  const file = event.target.files[0];
   if(!file) return;
 
-
-  const reader =
-    new FileReader();
-
-
-  reader.onload=function(e){
-
-    selectedPhoto =
-      e.target.result;
-
-    const preview =
-      document
-        .getElementById("photoPreview");
-
-    preview.src=
-      selectedPhoto;
-
-    preview.style.display=
-      "block";
-
-    showToast(
-      "📷 เพิ่มรูปแล้ว"
-    );
-
+  const reader = new FileReader();
+  reader.onload = function(e){
+    selectedPhoto = e.target.result;
+    const preview = document.getElementById("photoPreview");
+    preview.src = selectedPhoto;
+    preview.style.display = "block";
+    showToast("📷 บันทึกรูปภาพเรียบร้อย");
   };
-
-
   reader.readAsDataURL(file);
-
 }
 
-
-/* =====================================================
-   EXPORT
-===================================================== */
-
+/* EXPORT & CLEAR DATA */
 function exportData(){
-
-  const data =
-    JSON.stringify(
-      tasks,
-      null,
-      2
-    );
-
-
-  const blob =
-    new Blob(
-      [data],
-      {
-        type:
-          "application/json"
-      }
-    );
-
-
-  const url =
-    URL.createObjectURL(blob);
-
-
-  const a =
-    document.createElement("a");
-
-  a.href=url;
-
-  a.download=
-    "memory-data.json";
-
+  const data = JSON.stringify({ tasks, masterCategories, settings }, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "my-memory-backup.json";
   a.click();
-
   URL.revokeObjectURL(url);
-
-
-  showToast(
-    "📤 ส่งออกข้อมูลแล้ว"
-  );
-
+  showToast("📤 ส่งออกไฟล์สำรองความทรงจำแล้ว");
 }
-
-
-/* =====================================================
-   CLEAR ALL
-===================================================== */
 
 function clearAllData(){
-
-  if(!tasks.length){
-
-    showToast(
-      "ยังไม่มีข้อมูลให้ลบ"
-    );
-
-    return;
-
-  }
-
-
-  const confirmDelete =
-    confirm(
-      "⚠️ ต้องการลบความทรงจำทั้งหมดใช่ไหม?\n\nข้อมูลที่ลบแล้วจะไม่สามารถกู้คืนได้"
-    );
-
-
-  if(!confirmDelete)
-    return;
-
-
-  tasks=[];
-
-  saveTasks();
-
+  if(!confirm("⚠️ ต้องการล้างความทรงจำทั้งหมดใช่ไหม?")) return;
+  tasks = [];
+  trashTasks = [];
+  localStorage.removeItem("memoryTasks");
+  localStorage.removeItem("memoryTrash");
   renderAll();
-
-  showToast(
-    "🗑️ ลบข้อมูลทั้งหมดแล้ว"
-  );
-
+  showToast("🗑️ ล้างข้อมูลเรียบร้อยแล้ว");
 }
 
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
+/* UTILS */
 function applySettings(){
-
-  document.body
-    .classList
-    .toggle(
-      "dark",
-      settings.dark
-    );
-
-  document.body
-    .classList
-    .toggle(
-      "large-text",
-      settings.large
-    );
-
-
-  document
-    .getElementById("darkSwitch")
-    ?.classList
-    .toggle(
-      "on",
-      settings.dark
-    );
-
-  document
-    .getElementById("textSwitch")
-    ?.classList
-    .toggle(
-      "on",
-      settings.large
-    );
-
+  document.body.classList.toggle("dark", settings.dark);
+  document.getElementById("darkSwitch")?.classList.toggle("on", settings.dark);
 }
 
+function toggleDark(){ settings.dark = !settings.dark; saveSettings(); applySettings(); }
+function saveSettings(){ localStorage.setItem("memorySettings", JSON.stringify(settings)); }
 
-function toggleDark(){
-
-  settings.dark =
-    !settings.dark;
-
-  saveSettings();
-
-  applySettings();
-
-}
-
-
-function toggleText(){
-
-  settings.large =
-    !settings.large;
-
-  saveSettings();
-
-  applySettings();
-
-}
-
-
-function saveSettings(){
-
-  localStorage.setItem(
-    "memorySettings",
-    JSON.stringify(settings)
-  );
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function openModal(id){
-
-  document
-    .getElementById(id)
-    .classList
-    .add("show");
-
-}
-
-
-function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList
-    .remove("show");
-
-}
-
-
-/* =====================================================
-   CLOCK
-===================================================== */
+function openModal(id){ document.getElementById(id).classList.add("show"); }
+function closeModal(id){ document.getElementById(id).classList.remove("show"); }
 
 function updateClock(){
-
-  const now =
-    new Date();
-
-
-  document
-    .getElementById("clock")
-    .textContent =
-      now.toLocaleTimeString(
-        "th-TH",
-        {
-          hour:"2-digit",
-          minute:"2-digit"
-        }
-      );
-
-
-  document
-    .getElementById("todayText")
-    .textContent =
-      now.toLocaleDateString(
-        "th-TH",
-        {
-          weekday:"long",
-          day:"numeric",
-          month:"long",
-          year:"numeric"
-        }
-      );
-
+  const now = new Date();
+  document.getElementById("clock").textContent = now.toLocaleTimeString("th-TH", { hour:"2-digit", minute:"2-digit" });
+  document.getElementById("todayText").textContent = now.toLocaleDateString("th-TH", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
 }
-
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
 
 function formatThaiDate(value){
-
-  if(!value)
-    return "";
-
-  const d =
-    new Date(value);
-
-  if(isNaN(d))
-    return value;
-
-
-  return d.toLocaleDateString(
-    "th-TH",
-    {
-      day:"numeric",
-      month:"short"
-    }
-  )
-  +" "
-  +
-  d.toLocaleTimeString(
-    "th-TH",
-    {
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
-
+  if(!value) return "";
+  const d = new Date(value);
+  if(isNaN(d)) return value;
+  return d.toLocaleDateString("th-TH", { day:"numeric", month:"short" }) + " " + d.toLocaleTimeString("th-TH", { hour:"2-digit", minute:"2-digit" });
 }
-
 
 function formatCreated(value){
-
-  if(!value)
-    return "ไม่ทราบเวลา";
-
-  const d =
-    new Date(value);
-
-  return d.toLocaleDateString(
-    "th-TH",
-    {
-      day:"numeric",
-      month:"short"
-    }
-  )
-  +" • "
-  +
-  d.toLocaleTimeString(
-    "th-TH",
-    {
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
-
+  if(!value) return "";
+  const d = new Date(value);
+  return d.toLocaleDateString("th-TH", { day:"numeric", month:"short" }) + " • " + d.toLocaleTimeString("th-TH", { hour:"2-digit", minute:"2-digit" });
 }
-
-
-/* =====================================================
-   CATEGORY
-===================================================== */
 
 function categoryIcon(category){
-
-  const icons={
-
-    "งาน":"💼",
-
-    "ซื้อของ":"🛒",
-
-    "คนอื่น":"👥",
-
-    "ชีวิตประจำวัน":"🏠"
-
-  };
-
-  return icons[category] || "🧠";
-
+  const found = masterCategories.find(c => c.name === category);
+  return found ? found.icon : "🧠";
 }
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
 
 function escapeHTML(str){
-
   return String(str || "")
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
+    .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
-
-
-/* =====================================================
-   TOAST
-===================================================== */
 
 function showToast(message){
-
-  const toast =
-    document
-      .getElementById("toast");
-
-  toast.textContent=
-    message;
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  clearTimeout(
-    window.toastTimer
-  );
-
-
-  window.toastTimer =
-    setTimeout(()=>{
-
-      toast.classList.remove(
-        "show"
-      );
-
-    },2300);
-
+  const toast = document.getElementById("toast");
+  toast.innerHTML = `<span>${message}</span>`;
+  toast.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 2300);
 }
 
+function showToastWithUndo(message, undoFn){
+  const toast = document.getElementById("toast");
+  toast.innerHTML = `
+    <span>${message}</span>
+    <button onclick="undoLastDelete()" style="background:var(--primary); color:white; border:0; padding:4px 9px; border-radius:8px; font-size:10px; font-weight:bold; cursor:pointer;">
+      ↩️ เลิกทำ (Undo)
+    </button>
+  `;
+  toast.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 4000);
+}
 
-/* =====================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-===================================================== */
-
-document
-  .querySelectorAll(".modal")
-  .forEach(modal=>{
-
-    modal.addEventListener(
-      "click",
-      e=>{
-
-        if(e.target===modal){
-
-          modal.classList.remove(
-            "show"
-          );
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* =====================================================
-   ESCAPE KEY
-===================================================== */
-
-document.addEventListener(
-  "keydown",
-  e=>{
-
-    if(e.key==="Escape"){
-
-      document
-        .querySelectorAll(".modal")
-        .forEach(
-          m=>
-            m.classList.remove(
-              "show"
-            )
-        );
-
-    }
-
-  }
-);
-
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", e => { if(e.target===modal) modal.classList.remove("show"); });
+});
 </script>
 
 </body>
