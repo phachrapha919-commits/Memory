@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#fff7fc">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>เมื่อกี้ฉันจะทำอะไรนะ? 🧠</title>
 
 <style>
@@ -113,8 +115,11 @@ button{ border:0; cursor:pointer; }
 .voice{
   position:relative; z-index:2; width:100%; margin-top:15px; padding:14px;
   border-radius:17px; background:white; color:#7564e9; font-weight:900;
-  box-shadow:0 8px 18px rgba(70,50,120,.12);
+  box-shadow:0 8px 18px rgba(70,50,120,.12); display:flex; align-items:center; justify-content:center; gap:8px;
 }
+.voice.recording{ background:#ff718f; color:white; animation:pulse 1s infinite; }
+
+@keyframes pulse{ 0%{ transform:scale(1); } 50%{ transform:scale(1.02); } 100%{ transform:scale(1); } }
 
 /* CARDS & TASKS */
 .section-head{ display:flex; align-items:center; justify-content:space-between; margin:18px 2px 10px; }
@@ -298,7 +303,9 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
       <small>🧠 ผู้ช่วยบันทึกความจำอัจฉริยะ</small>
       <h2>เมื่อกี้ฉันจะทำอะไรนะ?</h2>
       <p>จดสิ่งที่จะทำ ป้องกันการลืม และติดตามความทรงจำของคุณ 💕</p>
-      <button class="voice" onclick="openAdd()">✨ บันทึกสิ่งที่ต้องทำ / วางของไว้ไหน</button>
+      <button class="voice" id="voiceBtn" onclick="toggleVoiceRecording()">
+        <span id="voiceIcon">🎙️</span> <span id="voiceText">กดพูดเพื่อจดความจำด้วยเสียง</span>
+      </button>
     </section>
 
     <div id="overdueAlertBox"></div>
@@ -474,6 +481,15 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
         </div>
         <button class="small-btn" onclick="requestNotification()">เปิดแจ้งเตือน</button>
       </div>
+
+      <div class="setting" onclick="getGPSLocation()">
+        <div class="si">📍</div>
+        <div class="setting-content">
+          <strong>ดึงพิกัดตำแหน่งปัจจุบัน (GPS)</strong>
+          <small>ช่วยระบุตำแหน่งสถานที่วางของ</small>
+        </div>
+        →
+      </div>
     </div>
 
     <!-- ระบบกู้คืนข้อมูล / ถังขยะ -->
@@ -606,7 +622,10 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
 
     <div class="field">
       <label>📍 พิกัด / สถานที่วางไว้ / สถานที่ที่จะไป</label>
-      <input class="input" id="locationInput" placeholder="เช่น โต๊ะทำงานชั้น 2 / ร้านสะดวกซื้อหน้าปากซอย">
+      <div style="display:flex; gap:6px;">
+        <input class="input" id="locationInput" placeholder="เช่น โต๊ะทำงานชั้น 2 / ร้านสะดวกซื้อหน้าปากซอย">
+        <button class="small-btn" onclick="getGPSLocation()" style="white-space:nowrap;">📍 ดึงพิกัด</button>
+      </div>
     </div>
 
     <div class="field">
@@ -657,6 +676,9 @@ let editingId = null;
 let selectedPhoto = "";
 let lastDeletedTask = null;
 
+let isRecording = false;
+let recognition = null;
+
 window.addEventListener("load", ()=>{
   if(userName){
     openApp();
@@ -667,7 +689,81 @@ window.addEventListener("load", ()=>{
   setInterval(updateClock, 1000);
   checkReminders();
   setInterval(checkReminders, 15000);
+  setupSpeechRecognition();
 });
+
+/* VOICE TO TEXT (SPEECH RECOGNITION) */
+function setupSpeechRecognition(){
+  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'th-TH';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      openAdd();
+      document.getElementById("taskInput").value = transcript;
+      showToast("🎙️ บันทึกเสียงเรียบร้อย: " + transcript);
+      stopVoiceRecording();
+    };
+
+    recognition.onerror = (event) => {
+      showToast("⚠️ ไม่สามารถรับเสียงได้ กรุณาลองใหม่");
+      stopVoiceRecording();
+    };
+
+    recognition.onend = () => {
+      stopVoiceRecording();
+    };
+  }
+}
+
+function toggleVoiceRecording(){
+  if(!recognition){
+    showToast("เบราว์เซอร์นี้ไม่รองรับการสั่งงานด้วยเสียง");
+    return;
+  }
+  if(isRecording){
+    recognition.stop();
+    stopVoiceRecording();
+  }else{
+    recognition.start();
+    isRecording = true;
+    const btn = document.getElementById("voiceBtn");
+    btn.classList.add("recording");
+    document.getElementById("voiceText").textContent = "กำลังฟังเสียงของคุณ... (พูดได้เลย)";
+  }
+}
+
+function stopVoiceRecording(){
+  isRecording = false;
+  const btn = document.getElementById("voiceBtn");
+  if(btn){
+    btn.classList.remove("recording");
+    document.getElementById("voiceText").textContent = "กดพูดเพื่อจดความจำด้วยเสียง";
+  }
+}
+
+/* GPS LOCATION */
+function getGPSLocation(){
+  if (navigator.geolocation) {
+    showToast("📍 กำลังค้นหาพิกัด GPS...");
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude.toFixed(4);
+      const lng = position.coords.longitude.toFixed(4);
+      const locString = `ละติจูด ${lat}, ลองจิจูด ${lng}`;
+      const locInput = document.getElementById("locationInput");
+      if(locInput){ locInput.value = locString; }
+      showToast("📍 ได้รับพิกัดปัจจุบันแล้ว!");
+    }, () => {
+      showToast("ไม่สามารถดึงพิกัด GPS ได้");
+    });
+  } else {
+    showToast("อุปกรณ์นี้ไม่รองรับ GPS");
+  }
+}
 
 /* LOGIN & ROLES SETUP */
 function simpleLogin(){
@@ -724,7 +820,6 @@ function loadUser(){
   const roleSelect = document.getElementById("switchRoleSelect");
   if(roleSelect) roleSelect.value = userRole;
 
-  // ปรับ UI ตามบทบาท Role
   document.getElementById("familyAssignField").style.display = (userRole === 'Family') ? 'block' : 'none';
   document.getElementById("incognitoField").style.display = (userRole === 'Personal') ? 'block' : 'none';
 }
