@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>เมื่อกี้ฉันจะทำอะไรนะ? 🧠</title>
 
+<!-- PWA Manifest Dynamic Injection for Mobile Shortcuts -->
+<link rel="manifest" id="manifestPath">
+
 <style>
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
@@ -149,13 +152,14 @@ button{ border:0; cursor:pointer; }
 .small-btn{ padding:7px 10px; border-radius:10px; background:var(--purple-soft); color:var(--primary); font-size:10px; font-weight:800; }
 .delete-btn{ background:#ffe6ec; color:#e95574; }
 .share-btn{ background:#e5f9f0; color:#229e62; }
+.ack-btn{ background:#e8f4ff; color:#2b72b8; }
 
 .search{ display:flex; align-items:center; gap:8px; margin:8px 0 15px; padding:12px 14px; border-radius:17px; background:var(--card); border:1px solid var(--line); }
 .search input{ width:100%; border:0; outline:0; background:none; color:var(--text); }
 
 .memory-photo{ width:100%; height:175px; object-fit:cover; border-radius:17px; margin-top:12px; display:block; }
 .location-box{ margin-top:9px; padding:10px; border-radius:13px; background:var(--pink-soft); color:#c65380; font-size:11px; font-weight:700; }
-.family-box{ margin-top:6px; padding:6px 10px; border-radius:10px; background:#e8f4ff; color:#2b72b8; font-size:10px; font-weight:bold; }
+.family-box{ margin-top:6px; padding:8px 10px; border-radius:10px; background:#e8f4ff; color:#2b72b8; font-size:10px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; }
 
 /* MODAL */
 .modal{ position:fixed; inset:0; z-index:200; display:none; align-items:flex-end; justify-content:center; background:rgba(35,30,50,.48); backdrop-filter:blur(5px); }
@@ -245,6 +249,8 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
 .reminder-icon{ font-size:22px; }
 .reminder-text{ flex:1; font-size:11px; font-weight:800; }
 .reminder-time{ color:var(--primary); font-size:10px; font-weight:900; }
+
+.ai-hint{ font-size:9px; color:var(--primary); font-weight:800; margin-top:3px; display:none; }
 </style>
 </head>
 
@@ -441,7 +447,6 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
       </div>
     </div>
 
-    <!-- ฟังก์ชันสลับโหมดบัญชี Role -->
     <div class="section-head">
       <h3>👤 เปลี่ยนรูปแบบบัญชีใช้งาน</h3>
     </div>
@@ -492,7 +497,6 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
       </div>
     </div>
 
-    <!-- ระบบกู้คืนข้อมูล / ถังขยะ -->
     <div class="section-head">
       <h3>🗑️ ระบบเรียกคืนข้อมูล</h3>
     </div>
@@ -509,7 +513,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
     </div>
 
     <div class="section-head">
-      <h3>💾 จัดการข้อมูลความจำ</h3>
+      <h3>💾 จัดการข้อมูลความจำ (IndexedDB / JSON)</h3>
     </div>
 
     <div class="card">
@@ -572,10 +576,10 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
 
     <div class="field">
       <label>💭 เรื่องที่คิดว่าเมื่อกี้จะทำ หรือจุดที่วางของไว้</label>
-      <textarea class="input" id="taskInput" placeholder="เช่น วางกุญแจรถไว้บนหลังตู้เย็น / ต้องแวะซื้อนมสด"></textarea>
+      <textarea class="input" id="taskInput" placeholder="เช่น ทานยาหลังอาหารอีก 10 นาที / วางกุญแจรถไว้บนหลังตู้เย็น" oninput="handleSmartAIInput(this.value)"></textarea>
+      <div class="ai-hint" id="aiHintText">🤖 AI ช่วยวิเคราะห์หมวดหมู่และเวลาแจ้งเตือนให้อัตโนมัติแล้ว!</div>
     </div>
 
-    <!-- ฟังก์ชันเฉพาะ Role: Family Assign -->
     <div class="field" id="familyAssignField" style="display:none;">
       <label>👨‍👩‍👧 มอบหมายความจำนี้ให้สมาชิกในบ้าน (Family Feature)</label>
       <select class="input" id="familyMemberInput">
@@ -587,7 +591,6 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
       </select>
     </div>
 
-    <!-- ฟังก์ชันเฉพาะ Role: Personal Incognito -->
     <div class="field" id="incognitoField" style="display:none;">
       <label style="color:#d9534f;">🔒 โหมดความจำลับส่วนตัว (Incognito Memory)</label>
       <select class="input" id="incognitoInput">
@@ -657,7 +660,66 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
 <div class="toast" id="toast"></div>
 
 <script>
-/* DATA & INITIAL STATE */
+/* --- INDEXEDDB DATABASE ENGINE --- */
+let db;
+function initIndexedDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("MemoryAppDB", 1);
+    request.onupgradeneeded = (e) => {
+      db = e.target.result;
+      if (!db.objectStoreNames.contains("tasks")) db.createObjectStore("tasks", { keyPath: "id" });
+      if (!db.objectStoreNames.contains("trash")) db.createObjectStore("trash", { keyPath: "id" });
+    };
+    request.onsuccess = (e) => {
+      db = e.target.result;
+      resolve(db);
+    };
+    request.onerror = (e) => reject(e);
+  });
+}
+
+function dbGetAll(storeName) {
+  return new Promise((resolve) => {
+    if (!db) return resolve([]);
+    const tx = db.transaction(storeName, "readonly");
+    const store = tx.objectStore(storeName);
+    const req = store.getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => resolve([]);
+  });
+}
+
+function dbPut(storeName, item) {
+  return new Promise((resolve) => {
+    if (!db) return resolve();
+    const tx = db.transaction(storeName, "readwrite");
+    const store = tx.objectStore(storeName);
+    store.put(item);
+    tx.oncomplete = () => resolve();
+  });
+}
+
+function dbDelete(storeName, id) {
+  return new Promise((resolve) => {
+    if (!db) return resolve();
+    const tx = db.transaction(storeName, "readwrite");
+    const store = tx.objectStore(storeName);
+    store.delete(id);
+    tx.oncomplete = () => resolve();
+  });
+}
+
+function dbClear(storeName) {
+  return new Promise((resolve) => {
+    if (!db) return resolve();
+    const tx = db.transaction(storeName, "readwrite");
+    const store = tx.objectStore(storeName);
+    store.clear();
+    tx.oncomplete = () => resolve();
+  });
+}
+
+/* GLOBAL APP STATE */
 let userName = localStorage.getItem("memorySimpleUser") || "";
 let userRole = localStorage.getItem("memoryUserRole") || "Personal";
 
@@ -668,8 +730,8 @@ let masterCategories = JSON.parse(localStorage.getItem("memoryCategories") || '[
   {"name":"สุขภาพ", "icon":"💊", "count":0}\
 ]');
 
-let tasks = JSON.parse(localStorage.getItem("memoryTasks") || "[]");
-let trashTasks = JSON.parse(localStorage.getItem("memoryTrash") || "[]");
+let tasks = [];
+let trashTasks = [];
 let settings = JSON.parse(localStorage.getItem("memorySettings") || '{"dark":false}');
 
 let editingId = null;
@@ -679,7 +741,12 @@ let lastDeletedTask = null;
 let isRecording = false;
 let recognition = null;
 
-window.addEventListener("load", ()=>{
+window.addEventListener("load", async () => {
+  setupDynamicManifest();
+  await initIndexedDB();
+  tasks = await dbGetAll("tasks");
+  trashTasks = await dbGetAll("trash");
+
   if(userName){
     openApp();
   }else{
@@ -690,7 +757,53 @@ window.addEventListener("load", ()=>{
   checkReminders();
   setInterval(checkReminders, 15000);
   setupSpeechRecognition();
+  registerServiceWorker();
+
+  // Check URL params for PWA Quick Action Voice Launch
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('action') === 'voice') {
+    setTimeout(() => { toggleVoiceRecording(); }, 600);
+  }
 });
+
+/* DYNAMIC MANIFEST FOR PWA MOBILE SHORTCUTS (SECTION 3) */
+function setupDynamicManifest() {
+  const manifestData = {
+    name: "เมื่อกี้ฉันจะทำอะไรนะ?",
+    short_name: "ดักความจำ",
+    start_url: "./",
+    display: "standalone",
+    background_color: "#fff7fc",
+    theme_color: "#fff7fc",
+    icons: [{ src: "https://cdn-icons-png.flaticon.com/512/3062/3062634.png", sizes: "512x512", type: "image/png" }],
+    shortcuts: [
+      {
+        name: "🎙️ พูดจดความจำด่วน",
+        short_name: "อัดเสียง",
+        description: "เปิดแอปแล้วอัดเสียงจดทันที",
+        url: "./?action=voice"
+      }
+    ]
+  };
+  const stringManifest = JSON.stringify(manifestData);
+  const blob = new Blob([stringManifest], {type: 'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  document.getElementById('manifestPath').setAttribute('href', manifestURL);
+}
+
+/* SERVICE WORKER FOR PWA & OFFLINE CAPABILITY */
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+      const CACHE_NAME = 'memory-app-v2';
+      self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['./']))); });
+      self.addEventListener('fetch', e => { e.respondWith(caches.match(e.request).then(res => res || fetch(e.request))); });
+    `;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const blobUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(blobUrl).catch(() => {});
+  }
+}
 
 /* VOICE TO TEXT (SPEECH RECOGNITION) */
 function setupSpeechRecognition(){
@@ -705,18 +818,17 @@ function setupSpeechRecognition(){
       const transcript = event.results[0][0].transcript;
       openAdd();
       document.getElementById("taskInput").value = transcript;
+      handleSmartAIInput(transcript); // Trigger AI Parsing
       showToast("🎙️ บันทึกเสียงเรียบร้อย: " + transcript);
       stopVoiceRecording();
     };
 
-    recognition.onerror = (event) => {
+    recognition.onerror = () => {
       showToast("⚠️ ไม่สามารถรับเสียงได้ กรุณาลองใหม่");
       stopVoiceRecording();
     };
 
-    recognition.onend = () => {
-      stopVoiceRecording();
-    };
+    recognition.onend = () => { stopVoiceRecording(); };
   }
 }
 
@@ -744,6 +856,93 @@ function stopVoiceRecording(){
     btn.classList.remove("recording");
     document.getElementById("voiceText").textContent = "กดพูดเพื่อจดความจำด้วยเสียง";
   }
+}
+
+/* SECTION 2: AI AUTO-CATEGORY & SMART NATURAL LANGUAGE PARSING */
+function handleSmartAIInput(text) {
+  if (!text) {
+    document.getElementById("aiHintText").style.display = "none";
+    return;
+  }
+
+  let detectedCategory = null;
+  let detectedPriority = null;
+  let detectedTime = null;
+  let aiTriggered = false;
+
+  const textLower = text.toLowerCase();
+
+  // 1. Auto Category Engine
+  if (textLower.match(/(ยา|หมอ|คลินิก|โรงพยาบาล|อาการ|ปวด|ไข้|ออกกำลัง|วิตามิน|ทานยา)/)) {
+    detectedCategory = "สุขภาพ";
+    aiTriggered = true;
+  } else if (textLower.match(/(ซื้อ|ช้อป|สั่งของ|เซเว่น|ตลาด|ห้าง|นม|ขนม|ของใช้)/)) {
+    detectedCategory = "ซื้อของ";
+    aiTriggered = true;
+  } else if (textLower.match(/(งาน|ประชุม|รายงาน|ส่งงาน|อีเมล|เรียน|การบ้าน|โปรเจกต์|สอบ)/)) {
+    detectedCategory = "งาน";
+    aiTriggered = true;
+  } else if (textLower.match(/(วาง|กุญแจ|กระเป๋า|ตู้|โต๊ะ|กี่|แว่น|โทรศัพท์)/)) {
+    detectedCategory = "ชีวิตประจำวัน";
+    aiTriggered = true;
+  }
+
+  // 2. Auto Priority Engine
+  if (textLower.match(/(ด่วน|ห้ามลืม|สำคัญมาก|รีบ|เร่งด่วน|ไฟลนตูด)/)) {
+    detectedPriority = "ด่วนที่สุด";
+    aiTriggered = true;
+  } else if (textLower.match(/(อย่าลืม|จำเป็น|สำคัญ)/)) {
+    detectedPriority = "สำคัญ";
+    aiTriggered = true;
+  }
+
+  // 3. Smart Natural Language Date/Time Parsing
+  const now = new Date();
+  let targetDate = new Date(now);
+
+  const minMatch = textLower.match(/(อีก|ใน)\s*(\d+)\s*นาที/);
+  const hourMatch = textLower.match(/(อีก|ใน)\s*(\d+)\s*ชั่วโมง/);
+
+  if (minMatch) {
+    const mins = parseInt(minMatch[2]);
+    targetDate.setMinutes(targetDate.getMinutes() + mins);
+    detectedTime = formatISOForInput(targetDate);
+    aiTriggered = true;
+  } else if (hourMatch) {
+    const hrs = parseInt(hourMatch[2]);
+    targetDate.setHours(targetDate.getHours() + hrs);
+    detectedTime = formatISOForInput(targetDate);
+    aiTriggered = true;
+  } else if (textLower.includes("พรุ่งนี้")) {
+    targetDate.setDate(targetDate.getDate() + 1);
+    if (textLower.includes("เช้า")) targetDate.setHours(8, 0, 0, 0);
+    else if (textLower.includes("เที่ยง")) targetDate.setHours(12, 0, 0, 0);
+    else if (textLower.includes("เย็น") || textLower.includes("ค่ำ")) targetDate.setHours(18, 0, 0, 0);
+    else targetDate.setHours(9, 0, 0, 0); // Default tomorrow 9 AM
+    detectedTime = formatISOForInput(targetDate);
+    aiTriggered = true;
+  } else if (textLower.includes("ตอนเย็น") || textLower.includes("เย็นนี้")) {
+    targetDate.setHours(17, 30, 0, 0);
+    detectedTime = formatISOForInput(targetDate);
+    aiTriggered = true;
+  }
+
+  // Apply AI Predictions to Form
+  if (detectedCategory) document.getElementById("categoryInput").value = detectedCategory;
+  if (detectedPriority) document.getElementById("priorityInput").value = detectedPriority;
+  if (detectedTime) document.getElementById("timeInput").value = detectedTime;
+
+  const hintBox = document.getElementById("aiHintText");
+  if (aiTriggered) {
+    hintBox.style.display = "block";
+  } else {
+    hintBox.style.display = "none";
+  }
+}
+
+function formatISOForInput(d) {
+  const pad = (n) => (n < 10 ? '0' + n : n);
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
 }
 
 /* GPS LOCATION */
@@ -853,17 +1052,7 @@ function showPage(id, btn){
   renderAll();
 }
 
-function saveTasks(){
-  localStorage.setItem("memoryTasks", JSON.stringify(tasks));
-}
-
-function saveTrash(){
-  localStorage.setItem("memoryTrash", JSON.stringify(trashTasks));
-  const badge = document.getElementById("trashCountBadge");
-  if(badge) badge.textContent = trashTasks.length;
-}
-
-/* CRUD TRANSACTIONS */
+/* CRUD TRANSACTIONS WITH INDEXEDDB */
 function openAdd(){
   editingId = null;
   document.getElementById("taskInput").value = "";
@@ -873,11 +1062,16 @@ function openAdd(){
   document.getElementById("priorityInput").value = "ปกติ";
   document.getElementById("familyMemberInput").value = "ตัวเอง";
   document.getElementById("incognitoInput").value = "false";
+  document.getElementById("aiHintText").style.display = "none";
 
   selectedPhoto = "";
   document.getElementById("photoPreview").style.display = "none";
   document.getElementById("saveButton").textContent = "💾 บันทึกความจำ";
   openModal("addModal");
+
+  setTimeout(() => {
+    document.getElementById("taskInput").focus();
+  }, 100);
 }
 
 function quickAdd(category, placeholder){
@@ -886,7 +1080,7 @@ function quickAdd(category, placeholder){
   document.getElementById("taskInput").value = placeholder;
 }
 
-function saveTask(){
+async function saveTask(){
   const text = document.getElementById("taskInput").value.trim();
   if(!text){
     showToast("ระบุเรื่องที่ต้องทำก่อนน้า 🧠");
@@ -911,10 +1105,11 @@ function saveTask(){
       task.familyMember = familyMember;
       task.isIncognito = isIncognito;
       if(selectedPhoto) task.photo = selectedPhoto;
+      await dbPut("tasks", task);
     }
     showToast("อัปเดตบันทึกเรียบร้อย ✨");
   }else{
-    tasks.unshift({
+    const newTask = {
       id: Date.now(),
       text,
       category,
@@ -924,14 +1119,16 @@ function saveTask(){
       familyMember: (userRole==='Family') ? familyMember : 'ตัวเอง',
       isIncognito: (userRole==='Personal') ? isIncognito : false,
       status: "รอดำเนินการ",
+      familyAck: false, // Section 3 Interactive Confirmation
       photo: selectedPhoto,
       done: false,
       created: new Date().toISOString()
-    });
+    };
+    tasks.unshift(newTask);
+    await dbPut("tasks", newTask);
     showToast("🧠 บันทึกความทรงจำแล้ว!");
   }
 
-  saveTasks();
   renderAll();
   closeModal("addModal");
 }
@@ -962,36 +1159,38 @@ function editTask(id){
   openModal("addModal");
 }
 
-/* DELETE & TRASH / RESTORE / UNDO SYSTEM */
-function deleteTask(id){
+/* DELETE & TRASH SYSTEM WITH INDEXEDDB */
+async function deleteTask(id){
   const index = tasks.findIndex(t => t.id === id);
   if(index === -1) return;
 
   const deleted = tasks.splice(index, 1)[0];
   lastDeletedTask = { task: deleted, index: index };
   
-  trashTasks.unshift({ ...deleted, deletedAt: new Date().toISOString() });
-  
-  saveTasks();
-  saveTrash();
-  renderAll();
+  const trashItem = { ...deleted, deletedAt: new Date().toISOString() };
+  trashTasks.unshift(trashItem);
 
+  await dbDelete("tasks", id);
+  await dbPut("trash", trashItem);
+
+  renderAll();
   showToastWithUndo("🗑️ ลบความจำแล้ว", undoLastDelete);
 }
 
-function undoLastDelete(){
+async function undoLastDelete(){
   if(!lastDeletedTask) return;
   tasks.splice(lastDeletedTask.index, 0, lastDeletedTask.task);
   trashTasks = trashTasks.filter(t => t.id !== lastDeletedTask.task.id);
+
+  await dbPut("tasks", lastDeletedTask.task);
+  await dbDelete("trash", lastDeletedTask.task.id);
+
   lastDeletedTask = null;
-  
-  saveTasks();
-  saveTrash();
   renderAll();
   showToast("✨ เรียกคืนความทรงจำเรียบร้อย!");
 }
 
-function restoreTask(id){
+async function restoreTask(id){
   const task = trashTasks.find(t => t.id === id);
   if(!task) return;
 
@@ -999,8 +1198,9 @@ function restoreTask(id){
   tasks.unshift(task);
   trashTasks = trashTasks.filter(t => t.id !== id);
 
-  saveTasks();
-  saveTrash();
+  await dbPut("tasks", task);
+  await dbDelete("trash", id);
+
   renderAll();
   renderTrashList();
   showToast("♻️ กู้คืน “" + task.text + "” เรียบร้อย");
@@ -1013,7 +1213,7 @@ function openTrashModal(){
 
 function renderTrashList(){
   const box = document.getElementById("trashList");
-  saveTrash();
+  document.getElementById("trashCountBadge").textContent = trashTasks.length;
   
   if(!trashTasks.length){
     box.innerHTML = `<div class="empty">ไม่มีรายการในถังขยะ 🌸</div>`;
@@ -1031,7 +1231,17 @@ function renderTrashList(){
   `).join("");
 }
 
-/* FAMILY FEATURE: SHARE TO LINE/MSG */
+/* SECTION 3: INTERACTIVE FAMILY CONFIRMATION & SHARE TO LINE/MSG */
+async function acknowledgeFamilyTask(id) {
+  const task = tasks.find(t => t.id === id);
+  if (!task) return;
+
+  task.familyAck = true;
+  await dbPut("tasks", task);
+  renderAll();
+  showToast("👍 ส่งสัญญาณรับทราบการฝากความจำให้ครอบครัวแล้ว!");
+}
+
 function shareFamilyTask(id){
   const task = tasks.find(t => t.id === id);
   if(!task) return;
@@ -1046,26 +1256,26 @@ function shareFamilyTask(id){
 }
 
 /* STATUS TRACKING */
-function changeStatus(id, newStatus){
+async function changeStatus(id, newStatus){
   const task = tasks.find(t => t.id === id);
   if(!task) return;
 
   task.status = newStatus;
   task.done = (newStatus === "ทำเสร็จแล้ว");
 
-  saveTasks();
+  await dbPut("tasks", task);
   renderAll();
   showToast("อัปเดตสถานะเป็น: " + newStatus);
 }
 
-function toggleTask(id){
+async function toggleTask(id){
   const task = tasks.find(t => t.id === id);
   if(!task) return;
 
   task.done = !task.done;
   task.status = task.done ? "ทำเสร็จแล้ว" : "รอดำเนินการ";
 
-  saveTasks();
+  await dbPut("tasks", task);
   renderAll();
   showToast(task.done ? "🎉 จัดการความจำนี้เรียบร้อย!" : "นำกลับมาทำใหม่");
 }
@@ -1110,7 +1320,12 @@ function taskHTML(t){
   `;
 
   if(t.familyMember && t.familyMember !== 'ตัวเอง'){
-    html += `<div class="family-box">👨‍👩‍👧 มอบหมายให้: ${escapeHTML(t.familyMember)}</div>`;
+    html += `
+      <div class="family-box">
+        <span>👨‍👩‍👧 มอบหมายให้: ${escapeHTML(t.familyMember)} ${t.familyAck ? '• <span style="color:#229e62">👍 รับทราบแล้ว</span>' : ''}</span>
+        ${(!t.familyAck && userRole==='Family') ? `<button class="small-btn ack-btn" onclick="acknowledgeFamilyTask(${t.id})">👍 รับทราบ</button>` : ''}
+      </div>
+    `;
   }
 
   if(t.location){
@@ -1296,7 +1511,7 @@ function renderOverdueAlerts(){
 }
 
 function renderAll(){
-  saveTrash();
+  document.getElementById("trashCountBadge").textContent = trashTasks.length;
   renderHome();
   renderTasks();
   renderTimeline();
@@ -1323,7 +1538,7 @@ async function requestNotification(){
 
 function checkReminders(){
   const now = Date.now();
-  tasks.forEach(task => {
+  tasks.forEach(async task => {
     if(task.done || !task.time || task.notified) return;
 
     const targetTime = new Date(task.time).getTime();
@@ -1336,7 +1551,7 @@ function checkReminders(){
       }
       showToast("🔔 ถึงเวลา: "+task.text);
       task.notified = true;
-      saveTasks();
+      await dbPut("tasks", task);
     }
   });
 }
@@ -1362,7 +1577,7 @@ function previewPhoto(event){
 
 /* EXPORT & CLEAR DATA */
 function exportData(){
-  const data = JSON.stringify({ tasks, masterCategories, settings }, null, 2);
+  const data = JSON.stringify({ tasks, trashTasks, masterCategories, settings }, null, 2);
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -1373,12 +1588,12 @@ function exportData(){
   showToast("📤 ส่งออกไฟล์สำรองความทรงจำแล้ว");
 }
 
-function clearAllData(){
+async function clearAllData(){
   if(!confirm("⚠️ ต้องการล้างความทรงจำทั้งหมดใช่ไหม?")) return;
   tasks = [];
   trashTasks = [];
-  localStorage.removeItem("memoryTasks");
-  localStorage.removeItem("memoryTrash");
+  await dbClear("tasks");
+  await dbClear("trash");
   renderAll();
   showToast("🗑️ ล้างข้อมูลเรียบร้อยแล้ว");
 }
