@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>เมื่อกี้ฉันจะทำอะไรนะ? 🧠</title>
 
-<!-- PWA Manifest Dynamic Injection for Mobile Shortcuts -->
+<!-- PWA Manifest Dynamic Injection -->
 <link rel="manifest" id="manifestPath">
 
 <style>
@@ -115,14 +115,38 @@ button{ border:0; cursor:pointer; }
 .hero h2{ position:relative; z-index:1; margin:8px 0; font-size:21px; }
 .hero p{ position:relative; z-index:1; margin:0; font-size:12px; line-height:1.7; opacity:.92; }
 
+.hero-btn-group{ display:flex; gap:8px; margin-top:15px; }
+
 .voice{
-  position:relative; z-index:2; width:100%; margin-top:15px; padding:14px;
+  flex:1; position:relative; z-index:2; padding:12px;
   border-radius:17px; background:white; color:#7564e9; font-weight:900;
-  box-shadow:0 8px 18px rgba(70,50,120,.12); display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 8px 18px rgba(70,50,120,.12); display:flex; align-items:center; justify-content:center; gap:6px; font-size:12px;
 }
 .voice.recording{ background:#ff718f; color:white; animation:pulse 1s infinite; }
 
+.freeze-btn{
+  position:relative; z-index:2; padding:12px 14px; border-radius:17px;
+  background:rgba(255,255,255,0.25); color:white; font-weight:900;
+  backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.4); font-size:12px;
+}
+
 @keyframes pulse{ 0%{ transform:scale(1); } 50%{ transform:scale(1.02); } 100%{ transform:scale(1); } }
+
+/* CONTEXT RESUME BOX */
+.context-resume-box{
+  margin-bottom:15px; padding:14px; border-radius:18px;
+  background:linear-gradient(135deg, #e4f3ff, #eef3ff); border:1px solid #b8daff;
+  color:#1b558f; display:none;
+}
+.context-resume-box h4{ margin:0 0 4px; font-size:13px; display:flex; justify-content:space-between; }
+.context-resume-box p{ margin:0; font-size:11px; line-height:1.5; font-weight:600; }
+
+/* MODE SWITCH BANNER */
+.mode-banner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; margin-bottom:12px; border-radius:15px;
+  background:var(--purple-soft); color:var(--primary); font-size:11px; font-weight:bold;
+}
 
 /* CARDS & TASKS */
 .section-head{ display:flex; align-items:center; justify-content:space-between; margin:18px 2px 10px; }
@@ -264,10 +288,10 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
     <p>ผู้ช่วยดักความจำอัจฉริยะส่วนตัว 💕<br>ระบุชื่อและเลือกรูปแบบการใช้งานเพื่อเริ่มต้น</p>
     
     <div class="field" style="text-align:left">
-      <label>👤 รูปแบบบัญชีผู้ใช้</label>
+      <label>👤 รูปแบบบัญชีผู้ใช้เริ่มต้น</label>
       <select class="input" id="userRoleInput">
-        <option value="Personal">🌸 ใช้งานส่วนตัว (Incognito Mode)</option>
-        <option value="Family">👨‍👩‍👧 แชร์ในครอบครัว (Family Member Assign)</option>
+        <option value="Personal">🌸 ใช้งานส่วนตัว (Personal Memory)</option>
+        <option value="Family">👨‍👩‍👧 แชร์ในครอบครัว (Family Shared)</option>
       </select>
     </div>
 
@@ -305,14 +329,31 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
 
   <!-- HOME PAGE -->
   <main id="home" class="page active">
+    <div class="mode-banner">
+      <span id="modeBannerText">🌸 โหมดส่วนตัว: ซ่อนความจำครอบครัว</span>
+      <button class="small-btn" onclick="showPage('profile')">สลับโหมด</button>
+    </div>
+
     <section class="hero">
       <small>🧠 ผู้ช่วยบันทึกความจำอัจฉริยะ</small>
       <h2>เมื่อกี้ฉันจะทำอะไรนะ?</h2>
       <p>จดสิ่งที่จะทำ ป้องกันการลืม และติดตามความทรงจำของคุณ 💕</p>
-      <button class="voice" id="voiceBtn" onclick="toggleVoiceRecording()">
-        <span id="voiceIcon">🎙️</span> <span id="voiceText">กดพูดเพื่อจดความจำด้วยเสียง</span>
-      </button>
+
+      <div class="hero-btn-group">
+        <button class="voice" id="voiceBtn" onclick="toggleVoiceRecording()">
+          <span id="voiceIcon">🎙️</span> <span id="voiceText">สั่งงานด้วยเสียง</span>
+        </button>
+        <button class="freeze-btn" onclick="freezeContextPrompt()">
+          ⏸️ แช่แข็งบริบท
+        </button>
+      </div>
     </section>
+
+    <!-- CONTEXT RESUME BOX -->
+    <div class="context-resume-box" id="contextResumeBox">
+      <h4><span>⏸️ ก่อนหน้านี้กำลังทำอะไรอยู่?</span> <button onclick="clearContextResume()" style="background:none; border:0; color:#1b558f; font-weight:bold; cursor:pointer;">✕</button></h4>
+      <p id="contextResumeText">-</p>
+    </div>
 
     <div id="overdueAlertBox"></div>
     <div id="nextReminder"></div>
@@ -358,7 +399,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
     </div>
 
     <div class="section-head">
-      <h3>📋 รายการความจำทั้งหมด</h3>
+      <h3>📋 รายการความจำในโหมดนี้</h3>
       <button onclick="openAdd()">+ บันทึกเพิ่ม</button>
     </div>
 
@@ -369,7 +410,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
   <main id="timeline" class="page">
     <div class="section-head">
       <h3>🕐 ไทม์ไลน์บันทึกความทรงจำ</h3>
-      <span class="badge purple">ล่าสุด</span>
+      <span class="badge purple">โหมดปัจจุบัน</span>
     </div>
 
     <div class="card">
@@ -385,7 +426,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
 
     <div class="stat-grid">
       <div class="stat">
-        <small>🧠 บันทึกทั้งหมด</small>
+        <small>🧠 บันทึกโหมดนี้</small>
         <div class="number" id="statTotal">0</div>
       </div>
       <div class="stat">
@@ -431,8 +472,8 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
       <div class="setting">
         <div class="si">🧠</div>
         <div class="setting-content">
-          <strong>เรื่องที่เคยบันทึกไว้</strong>
-          <small>ความจำทั้งหมดในระบบ</small>
+          <strong>ความจำในโหมดปัจจุบัน</strong>
+          <small>รายการที่บันทึกไว้</small>
         </div>
         <b id="profileTaskCount">0</b>
       </div>
@@ -440,7 +481,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
       <div class="setting">
         <div class="si">🎉</div>
         <div class="setting-content">
-          <strong>ความจำที่จัดการแล้ว</strong>
+          <strong>จัดการสำเร็จแล้ว</strong>
           <small>เสร็จสิ้นเรียบร้อย</small>
         </div>
         <b id="profileDoneCount">0</b>
@@ -448,12 +489,12 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
     </div>
 
     <div class="section-head">
-      <h3>👤 เปลี่ยนรูปแบบบัญชีใช้งาน</h3>
+      <h3>👤 สลับรูปแบบบัญชีและโหมดความจำ</h3>
     </div>
     <div class="card">
       <div class="field" style="margin:0;">
         <select class="input" id="switchRoleSelect" onchange="switchRole(this.value)">
-          <option value="Personal">🌸 ใช้งานส่วนตัว (Personal)</option>
+          <option value="Personal">🌸 ใช้งานส่วนตัว (Personal Memory)</option>
           <option value="Family">👨‍👩‍👧 แชร์ในครอบครัว (Family Shared)</option>
         </select>
       </div>
@@ -465,7 +506,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
   <!-- SETTINGS PAGE -->
   <main id="settings" class="page">
     <div class="section-head">
-      <h3>⚙️️ ตั้งค่า</h3>
+      <h3>⚙ ตั้งค่า</h3>
     </div>
 
     <div class="card">
@@ -482,7 +523,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
         <div class="si">🔔</div>
         <div class="setting-content">
           <strong>ระบบแจ้งเตือนภายนอก (Background Alert)</strong>
-          <small>เตือนแม้อยู่ นอกหน้าต่างเว็บ / ปิดหน้าจอ</small>
+          <small>เตือนแม้อยู่นอกหน้าต่างเว็บ / ปิดหน้าจอ</small>
         </div>
         <button class="small-btn" onclick="requestNotification()">เปิดแจ้งเตือน</button>
       </div>
@@ -600,7 +641,7 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
     </div>
 
     <div class="field">
-      <label>🏷️ หมวดหมู่ความจำ (Master Data)</label>
+      <label>🏷 หมวดหมู่ความจำ (Master Data)</label>
       <select class="input" id="categoryInput">
         <option value="ชีวิตประจำวัน">🏠 ชีวิตประจำวัน (ของใช้/วางของ)</option>
         <option value="ซื้อของ">🛒 ช้อปปิ้ง / ซื้อของ</option>
@@ -632,13 +673,13 @@ body.dark .nav{ background:rgba(33,30,45,.94); }
     </div>
 
     <div class="field">
-      <label>📷 ถ่ายรูปสิ่งของ / บันทึกภาพสถานที่กันลืม</label>
+      <label>📷 ถ่ายรูปสิ่งของ / บันทึกภาพสถานที่กันลืม (ย่อขนาดอัตโนมัติ)</label>
       <div class="photo-buttons">
         <button class="photo-btn" onclick="openCamera()">📷 ถ่ายรูป</button>
         <button class="photo-btn" onclick="openGallery()">🖼️ เลือกรูป</button>
       </div>
-      <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(event)">
-      <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="previewPhoto(event)">
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="previewAndCompressPhoto(event)">
+      <input type="file" id="galleryInput" accept="image/*" style="display:none" onchange="previewAndCompressPhoto(event)">
       <img id="photoPreview" class="photo-preview">
     </div>
 
@@ -740,7 +781,6 @@ let lastDeletedTask = null;
 
 let isRecording = false;
 let recognition = null;
-let swRegistration = null;
 
 window.addEventListener("load", async () => {
   setupDynamicManifest();
@@ -759,8 +799,8 @@ window.addEventListener("load", async () => {
   setInterval(checkReminders, 15000);
   setupSpeechRecognition();
   registerServiceWorker();
+  checkContextResume();
 
-  // URL ACTION HANDLING (VOICE LAUNCH & FAMILY ACK LINK)
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('action') === 'voice') {
     setTimeout(() => { toggleVoiceRecording(); }, 600);
@@ -772,6 +812,51 @@ window.addEventListener("load", async () => {
     }
   }
 });
+
+/* FILTER TASKS STRICTLY BY CURRENT MODE */
+function getActiveTasks() {
+  if (userRole === 'Personal') {
+    // โหมดส่วนตัว: เอาเฉพาะความจำที่ไม่ใช่การฝากแชร์ในครอบครัว หรือเป็นความจำส่วนตัว
+    return tasks.filter(t => !t.familyMember || t.familyMember === 'ตัวเอง' || t.isIncognito);
+  } else {
+    // โหมดครอบครัว: เอาเฉพาะความจำฝากครอบครัว และไม่โชว์ Incognito ส่วนตัว
+    return tasks.filter(t => !t.isIncognito && t.familyMember && t.familyMember !== 'ตัวเอง');
+  }
+}
+
+/* CONTEXT FREEZE & RESUME ASSISTANT */
+function freezeContextPrompt() {
+  const currentAction = prompt("⏸️ บันทึกบริบท: ก่อนโดนขัดจังหวะ คุณกำลังทำอะไรอยู่?");
+  if (currentAction && currentAction.trim()) {
+    const frozenObj = {
+      text: currentAction.trim(),
+      time: new Date().toISOString()
+    };
+    localStorage.setItem("memoryFrozenContext", JSON.stringify(frozenObj));
+    checkContextResume();
+    showToast("⏸️ แช่แข็งบริบทความจำเรียบร้อย!");
+  }
+}
+
+function checkContextResume() {
+  const frozen = localStorage.getItem("memoryFrozenContext");
+  const box = document.getElementById("contextResumeBox");
+  if (frozen && box) {
+    try {
+      const parsed = JSON.parse(frozen);
+      document.getElementById("contextResumeText").textContent = parsed.text + " (เมื่อ " + formatCreated(parsed.time) + ")";
+      box.style.display = "block";
+    } catch(e) { box.style.display = "none"; }
+  } else if (box) {
+    box.style.display = "none";
+  }
+}
+
+function clearContextResume() {
+  localStorage.removeItem("memoryFrozenContext");
+  checkContextResume();
+  showToast("เคลียร์บริบทก่อนหน้าแล้ว");
+}
 
 /* DYNAMIC MANIFEST FOR PWA MOBILE SHORTCUTS */
 function setupDynamicManifest() {
@@ -785,7 +870,7 @@ function setupDynamicManifest() {
     icons: [{ src: "https://cdn-icons-png.flaticon.com/512/3062/3062634.png", sizes: "512x512", type: "image/png" }],
     shortcuts: [
       {
-        name: "🎙️ พูดจดความจำด่วน",
+        name: "🎙 พูดจดความจำด่วน",
         short_name: "อัดเสียง",
         description: "เปิดแอปแล้วอัดเสียงจดทันที",
         url: "./?action=voice"
@@ -802,11 +887,10 @@ function setupDynamicManifest() {
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     const swCode = `
-      const CACHE_NAME = 'memory-app-v3';
+      const CACHE_NAME = 'memory-app-v5';
       self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['./']))); });
       self.addEventListener('fetch', e => { e.respondWith(caches.match(e.request).then(res => res || fetch(e.request))); });
       
-      // BACKGROUND PUSH & SYSTEM NOTIFICATION LISTENER
       self.addEventListener('message', e => {
         if (e.data && e.data.type === 'SHOW_NOTIFICATION') {
           self.registration.showNotification(e.data.title, {
@@ -821,13 +905,11 @@ function registerServiceWorker() {
     `;
     const blob = new Blob([swCode], { type: 'application/javascript' });
     const blobUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(blobUrl).then(reg => {
-      swRegistration = reg;
-    }).catch(() => {});
+    navigator.serviceWorker.register(blobUrl).catch(() => {});
   }
 }
 
-/* VOICE TO TEXT (SPEECH RECOGNITION) */
+/* VOICE TO TEXT */
 function setupSpeechRecognition(){
   if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -867,7 +949,7 @@ function toggleVoiceRecording(){
     isRecording = true;
     const btn = document.getElementById("voiceBtn");
     btn.classList.add("recording");
-    document.getElementById("voiceText").textContent = "กำลังฟังเสียงของคุณ... (พูดได้เลย)";
+    document.getElementById("voiceText").textContent = "กำลังฟัง...";
   }
 }
 
@@ -876,7 +958,7 @@ function stopVoiceRecording(){
   const btn = document.getElementById("voiceBtn");
   if(btn){
     btn.classList.remove("recording");
-    document.getElementById("voiceText").textContent = "กดพูดเพื่อจดความจำด้วยเสียง";
+    document.getElementById("voiceText").textContent = "สั่งงานด้วยเสียง";
   }
 }
 
@@ -951,11 +1033,7 @@ function handleSmartAIInput(text) {
   if (detectedTime) document.getElementById("timeInput").value = detectedTime;
 
   const hintBox = document.getElementById("aiHintText");
-  if (aiTriggered) {
-    hintBox.style.display = "block";
-  } else {
-    hintBox.style.display = "none";
-  }
+  hintBox.style.display = aiTriggered ? "block" : "none";
 }
 
 function formatISOForInput(d) {
@@ -1034,6 +1112,11 @@ function loadUser(){
   document.getElementById("userRoleBadge").textContent = roleText;
   document.getElementById("profileRoleText").textContent = "สิทธิ์การใช้งาน: " + roleText;
   
+  const bannerText = document.getElementById("modeBannerText");
+  if(bannerText) {
+    bannerText.textContent = (userRole === 'Family') ? '👨‍👩‍👧 โหมดแชร์ครอบครัว: ซ่อนความจำส่วนตัว' : '🌸 โหมดส่วนตัว: ซ่อนความจำครอบครัว';
+  }
+
   const roleSelect = document.getElementById("switchRoleSelect");
   if(roleSelect) roleSelect.value = userRole;
 
@@ -1078,7 +1161,7 @@ function openAdd(){
   document.getElementById("timeInput").value = "";
   document.getElementById("categoryInput").value = "ชีวิตประจำวัน";
   document.getElementById("priorityInput").value = "ปกติ";
-  document.getElementById("familyMemberInput").value = "ตัวเอง";
+  document.getElementById("familyMemberInput").value = "คุณแม่ 👩";
   document.getElementById("incognitoInput").value = "false";
   document.getElementById("aiHintText").style.display = "none";
 
@@ -1264,11 +1347,10 @@ function shareFamilyTask(id){
   const task = tasks.find(t => t.id === id);
   if(!task) return;
 
-  // Generate interactive Link for direct family confirmation
   const baseUrl = window.location.href.split('?')[0];
   const ackUrl = `${baseUrl}?action=ack_family&id=${task.id}`;
 
-  const shareText = `👨‍👩‍👧 [ฝากความจำครอบครัว]\nเรื่อง: ${task.text}\nมอบหมายให้: ${task.familyMember || 'ทุกคน'}\nพิกัด/สถานที่: ${task.location || '-'}\n\n👇 กดเปิดลิงก์นี้เพื่อยืนยันรับเรื่องให้คนในบ้าน:\n${ackUrl}`;
+  const shareText = `👨‍👩‍‍👧 [ฝากความจำครอบครัว]\nเรื่อง: ${task.text}\nมอบหมายให้: ${task.familyMember || 'ทุกคน'}\nพิกัด/สถานที่: ${task.location || '-'}\n\n👇 กดเปิดลิงก์นี้เพื่อยืนยันรับเรื่องให้คนในบ้าน:\n${ackUrl}`;
   
   if (navigator.share) {
     navigator.share({ title: 'ฝากความจำครอบครัว', text: shareText });
@@ -1377,9 +1459,9 @@ function taskHTML(t){
 
   html += `
       <div class="task-actions">
-        <button class="small-btn" onclick="editTask(${t.id})">✏️️ แก้ไข</button>
+        <button class="small-btn" onclick="editTask(${t.id})">✏ แก้ไข</button>
         ${userRole === 'Family' ? `<button class="small-btn share-btn" onclick="shareFamilyTask(${t.id})">📲 แชร์ให้บ้าน</button>` : ''}
-        <button class="small-btn delete-btn" onclick="deleteTask(${t.id})">🗑️️ ลบ</button>
+        <button class="small-btn delete-btn" onclick="deleteTask(${t.id})">🗑 ลบ</button>
       </div>
     </div>
   `;
@@ -1389,13 +1471,14 @@ function taskHTML(t){
 
 function renderHome(){
   const box = document.getElementById("homeTasks");
-  const pending = tasks.filter(t => !t.done).slice(0,4);
+  const activeTasksList = getActiveTasks();
+  const pending = activeTasksList.filter(t => !t.done).slice(0,4);
 
   if(!pending.length){
     box.innerHTML = `
       <div class="card empty">
         <div>🎉</div>
-        ไม่มีสิ่งที่ต้องทำค้างอยู่
+        ไม่มีสิ่งที่ต้องทำค้างอยู่ในโหมดนี้
         <br><small>สมองปลอดโปร่ง ไร้เรื่องกังวลใจ 💜</small>
       </div>
     `;
@@ -1407,15 +1490,16 @@ function renderHome(){
 function renderTasks(){
   const box = document.getElementById("allTasks");
   const search = document.getElementById("searchInput")?.value.toLowerCase().trim() || "";
+  const activeTasksList = getActiveTasks();
 
-  const filtered = tasks.filter(t => 
+  const filtered = activeTasksList.filter(t => 
     t.text.toLowerCase().includes(search) ||
     t.category.toLowerCase().includes(search) ||
     (t.location || "").toLowerCase().includes(search)
   );
 
   if(!filtered.length){
-    box.innerHTML = `<div class="card empty"><div>🔎</div>ไม่พบรายการความจำที่ค้นหา</div>`;
+    box.innerHTML = `<div class="card empty"><div>🔎</div>ไม่พบรายการความจำในโหมดนี้</div>`;
     return;
   }
 
@@ -1427,14 +1511,14 @@ function renderTasks(){
 
 function renderTimeline(){
   const box = document.getElementById("timelineList");
-  const visibleTasks = tasks.filter(t => !t.isIncognito);
+  const activeTasksList = getActiveTasks().filter(t => !t.isIncognito);
 
-  if(!visibleTasks.length){
-    box.innerHTML = `<div class="empty">ยังไม่มีบันทึกไทม์ไลน์ความทรงจำ 🌷</div>`;
+  if(!activeTasksList.length){
+    box.innerHTML = `<div class="empty">ยังไม่มีบันทึกไทม์ไลน์ในโหมดนี้ 🌷</div>`;
     return;
   }
 
-  box.innerHTML = [...visibleTasks]
+  box.innerHTML = [...activeTasksList]
     .sort((a,b) => new Date(b.created) - new Date(a.created))
     .map(t => `
       <div class="event">
@@ -1447,9 +1531,9 @@ function renderTimeline(){
 }
 
 function renderStats(){
-  const validTasks = tasks.filter(t => !t.isIncognito);
-  const total = validTasks.length;
-  const done = validTasks.filter(t => t.done).length;
+  const activeTasksList = getActiveTasks().filter(t => !t.isIncognito);
+  const total = activeTasksList.length;
+  const done = activeTasksList.filter(t => t.done).length;
   const pending = total - done;
   const rate = total ? Math.round((done / total) * 100) : 0;
 
@@ -1466,9 +1550,10 @@ function renderMasterCategories(){
   const box = document.getElementById("masterDataBox");
   if(!box) return;
 
+  const activeTasksList = getActiveTasks();
   let html = "";
   masterCategories.forEach(cat => {
-    const count = tasks.filter(t => t.category === cat.name && !t.isIncognito).length;
+    const count = activeTasksList.filter(t => t.category === cat.name && !t.isIncognito).length;
     html += `
       <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--line);">
         <div>
@@ -1484,15 +1569,17 @@ function renderMasterCategories(){
 }
 
 function renderProfile(){
-  document.getElementById("profileTaskCount").textContent = tasks.length;
-  document.getElementById("profileDoneCount").textContent = tasks.filter(t => t.done).length;
+  const activeTasksList = getActiveTasks();
+  document.getElementById("profileTaskCount").textContent = activeTasksList.length;
+  document.getElementById("profileDoneCount").textContent = activeTasksList.filter(t => t.done).length;
 }
 
 function renderReminder(){
   const box = document.getElementById("nextReminder");
   const now = Date.now();
+  const activeTasksList = getActiveTasks();
 
-  const upcoming = tasks
+  const upcoming = activeTasksList
     .filter(t => !t.done && t.time && new Date(t.time).getTime() > now)
     .sort((a,b) => new Date(a.time) - new Date(b.time))[0];
 
@@ -1516,7 +1603,8 @@ function renderReminder(){
 function renderOverdueAlerts(){
   const box = document.getElementById("overdueAlertBox");
   const now = new Date();
-  const overdue = tasks.filter(t => !t.done && (now - new Date(t.created)) > 86400000);
+  const activeTasksList = getActiveTasks();
+  const overdue = activeTasksList.filter(t => !t.done && (now - new Date(t.created)) > 86400000);
 
   if(overdue.length > 0){
     box.innerHTML = `
@@ -1587,21 +1675,44 @@ function checkReminders(){
   });
 }
 
-/* CAMERA & GALLERY */
+/* CAMERA & GALLERY WITH IMAGE COMPRESSION */
 function openCamera(){ document.getElementById("cameraInput").click(); }
 function openGallery(){ document.getElementById("galleryInput").click(); }
 
-function previewPhoto(event){
+function previewAndCompressPhoto(event){
   const file = event.target.files[0];
   if(!file) return;
 
+  showToast("🖼️ กำลังประมวลผลย่อขนาดรูปภาพ...");
+
   const reader = new FileReader();
   reader.onload = function(e){
-    selectedPhoto = e.target.result;
-    const preview = document.getElementById("photoPreview");
-    preview.src = selectedPhoto;
-    preview.style.display = "block";
-    showToast("📷 บันทึกรูปภาพเรียบร้อย");
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const maxWidth = 800;
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      selectedPhoto = canvas.toDataURL("image/jpeg", 0.7);
+
+      const preview = document.getElementById("photoPreview");
+      preview.src = selectedPhoto;
+      preview.style.display = "block";
+      showToast("📷 ย่อขนาดและปรับแต่งรูปเรียบร้อยแล้ว");
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
